@@ -190,7 +190,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-06-22 18:26:35 / 修改时间：19:43:16" itemprop="dateCreated datePublished" datetime="2023-06-22T18:26:35+08:00">2023-06-22</time>
+              <time title="创建时间：2023-06-22 18:26:35 / 修改时间：19:52:20" itemprop="dateCreated datePublished" datetime="2023-06-22T18:26:35+08:00">2023-06-22</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -241,6 +241,17 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://oauth2:*******************@github.com/Wei-LL/Wei-LL.github.io.git</span><br></pre></td></tr></table></figure>
 
 <p>这里****填写的是token。后续每次提交就不用了输账号密码了。</p>
+<h3 id="5-Failed-to-connect-to-github-com-port-443-Timed-out"><a href="#5-Failed-to-connect-to-github-com-port-443-Timed-out" class="headerlink" title="5. Failed to  connect to github.com port 443: Timed out"></a>5. Failed to  connect to github.com port 443: Timed out</h3><p>在hexo init 命令初始化以及有时git clone代码时会碰到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Failed to  connect to github.com port 443: Timed out</span><br></pre></td></tr></table></figure>
+
+<p>因为是网络问题，最直接的方法就是使用代理，后台挂号代理后，git窗口中</p>
+<p>设置git代理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy localhost:7890</span><br></pre></td></tr></table></figure>
+
+<p>其中7890是代理的端口号，我用的clash，直接在clash主界面常规查看。</p>
+<p>记得之后取消代理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
