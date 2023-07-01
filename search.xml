@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hexo+Next 搭建过程碰到的问题</title>
+    <url>/2023/06/22/Hexo-Next-%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E7%A2%B0%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h3 id="1-master改为main"><a href="#1-master改为main" class="headerlink" title="1. master改为main"></a>1. master改为main</h3><p>GitHub最近已经把主分支改为main了，不再是master，所以<code>Blog</code>下的 <code>_config.yml</code>文件里应该是</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
+
+<p>其他与<code>master</code>有关的也命令也需要用<code>main</code>。</p>
+<h3 id="2-Git-error-Host-Key-Verification-Failed"><a href="#2-Git-error-Host-Key-Verification-Failed" class="headerlink" title="2. Git error:Host Key Verification Failed"></a>2. Git error:Host Key Verification Failed</h3><p>用git上传文件到GitHub首先得利用SSH登录远程主机，在利用公钥登录时，输入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>进行检验，出现 <code>Git error:Host Key Verification Failed</code>错误，出现错误的主要问题是<code>known_hosts</code>文件的配置问题，参考<a href="https://stackoverflow.com/questions/13363553/git-error-host-key-verification-failed-when-connecting-to-remote-repository/29908140#29908140">stackoverflow回答</a>：</p>
+<ol>
+<li><code>mkdir -p ~/.ssh</code></li>
+<li><code>ssh-keyscan -t rsa github.com &gt;&gt; ~/.ssh/known_hosts</code></li>
+<li><code>ssh-keygen -t rsa -C &quot;user.email&quot;</code></li>
+<li>open the public key with this command <code>$ cat ~/.ssh/id_rsa.pub</code> and copy it.</li>
+<li>Add the <em>id_rsa.pub</em> key to SSH keys list on your GitHub profile.</li>
+</ol>
+<h3 id="3-error-failed-to-push-some-refs-to-‘xxx-x2F-xx’"><a href="#3-error-failed-to-push-some-refs-to-‘xxx-x2F-xx’" class="headerlink" title="3. error: failed to push some refs to ‘xxx&#x2F;xx’"></a>3. error: failed to push some refs to ‘xxx&#x2F;xx’</h3><p>执行<code>git push origin master</code>时，弹出窗口需要输入用户名和密码，用户名输的github名，密码刚开始以为是github登陆密码，但是错了。提示说21年8月后不允许使用用户名和密码登陆了，解决方法是使用Personal access tokens。令牌方式登录：</p>
+<ol>
+<li>直接打开 <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> 这个界面，或登录Github后点击<code>头像</code>-<code>settings</code>-左侧列表<code>Developer settings</code>-<code>Personal access tokens</code></li>
+<li>右上点击<code>Generate new token</code></li>
+<li><code>note</code>随便填写，选择过期时间</li>
+<li>勾选上下边的全部。（这个是token具有的权限）</li>
+<li>最后点击底部的<code>Generate token</code> 生成token</li>
+</ol>
+<p>然后用户名还是原先的用户名，但是密码这里填写生成的token就行了。</p>
+<h3 id="4-每次提交都需要输账号密码"><a href="#4-每次提交都需要输账号密码" class="headerlink" title="4. 每次提交都需要输账号密码"></a>4. 每次提交都需要输账号密码</h3><p>后续在每次提交代码时，发现都需要输入账号密码，很麻烦，可找到<code>Blog</code>下的<code>_config.yml</code>文件里，原先<code>repository:</code>那里填写的是个人仓库的地址。改成</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth2:*******************@github.com/Wei-LL/Wei-LL.github.io.git</span><br></pre></td></tr></table></figure>
+
+<p>这里****填写的是token。后续每次提交就不用了输账号密码了。</p>
+<h3 id="5-Failed-to-connect-to-github-com-port-443-Timed-out"><a href="#5-Failed-to-connect-to-github-com-port-443-Timed-out" class="headerlink" title="5. Failed to  connect to github.com port 443: Timed out"></a>5. Failed to  connect to github.com port 443: Timed out</h3><p>在hexo init 命令初始化以及有时git clone代码时会碰到</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Failed to  connect to github.com port 443: Timed out</span><br></pre></td></tr></table></figure>
+
+<p>因为是网络问题，最直接的方法就是使用代理，后台挂好代理后，git窗口中</p>
+<p>设置git代理</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy localhost:7890</span><br></pre></td></tr></table></figure>
+
+<p>其中7890是代理的端口号，我用的clash，直接在clash主界面常规查看。</p>
+<p>记得之后取消代理</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>解决方案</category>
+      </categories>
+      <tags>
+        <tag>解决方案</tag>
+        <tag>博客搭建</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo + Butterfly主题美化</title>
     <url>/2023/06/23/Butterfly%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
     <content><![CDATA[<p>搭建时是Hexo + Next主题，Next主题比较简约直观，本打算就直接用Next，但之后发现了Butterfly主题也很好看，就配置了Butterfly主题</p>
@@ -116,57 +167,6 @@
 <p><img src="https://gitee.com/lw100226/drawing-bed/raw/master/image-20230701163556896.png" alt="image-20230701163556896"></p>
 <p>默认搜索页面背景是白色的，由于我之前把字体都改成了亮色，这里看不清，在主题下<code>source</code>-<code>css</code>-<code>var.styl</code>文件加下修改搜索背景颜色为暗色：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">$search-bg</span> <span class="string">=</span> <span class="comment">#25253A //#f6f8fa</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>解决方案</category>
-      </categories>
-      <tags>
-        <tag>解决方案</tag>
-        <tag>博客搭建</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo+Next 搭建过程碰到的问题</title>
-    <url>/2023/06/22/Hexo-Next-%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E7%A2%B0%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h3 id="1-master改为main"><a href="#1-master改为main" class="headerlink" title="1. master改为main"></a>1. master改为main</h3><p>GitHub最近已经把主分支改为main了，不在是master，所以<code>Blog</code>下的 <code>_config.yml</code>文件里应该是</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
-
-<p>其他与<code>master</code>有关的也命令也需要用<code>main</code>。</p>
-<h3 id="2-Git-error-Host-Key-Verification-Failed"><a href="#2-Git-error-Host-Key-Verification-Failed" class="headerlink" title="2. Git error:Host Key Verification Failed"></a>2. Git error:Host Key Verification Failed</h3><p>用git上传文件到GitHub首先得利用SSH登录远程主机，在利用公钥登录时，输入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-
-<p>进行检验，出现 <code>Git error:Host Key Verification Failed</code>错误，出现错误的主要问题是<code>known_hosts</code>文件的配置问题，参考<a href="https://stackoverflow.com/questions/13363553/git-error-host-key-verification-failed-when-connecting-to-remote-repository/29908140#29908140">stackoverflow回答</a>：</p>
-<ol>
-<li><code>mkdir -p ~/.ssh</code></li>
-<li><code>ssh-keyscan -t rsa github.com &gt;&gt; ~/.ssh/known_hosts</code></li>
-<li><code>ssh-keygen -t rsa -C &quot;user.email&quot;</code></li>
-<li>open the public key with this command <code>$ cat ~/.ssh/id_rsa.pub</code> and copy it.</li>
-<li>Add the <em>id_rsa.pub</em> key to SSH keys list on your GitHub profile.</li>
-</ol>
-<h3 id="3-error-failed-to-push-some-refs-to-‘xxx-x2F-xx’"><a href="#3-error-failed-to-push-some-refs-to-‘xxx-x2F-xx’" class="headerlink" title="3. error: failed to push some refs to ‘xxx&#x2F;xx’"></a>3. error: failed to push some refs to ‘xxx&#x2F;xx’</h3><p>执行<code>git push origin master</code>时，弹出窗口需要输入用户名和密码，用户名输的github名，密码刚开始是github登陆密码，但是错了。提示说21年8月后不允许使用用户名和密码登陆了，解决方法是使用Personal access tokens。令牌方式登录：</p>
-<ol>
-<li>直接打开 <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> 这个界面，或登录Github后点击<code>头像</code>-<code>settings</code>-左侧列表<code>Developer settings</code>-<code>Personal access tokens</code></li>
-<li>右上点击<code>Generate new token</code></li>
-<li><code>note</code>随便填写，选择过期时间</li>
-<li>勾选上下边的全部。（这个是token具有的权限）</li>
-<li>最后点击底部的<code>Generate token</code> 生成token</li>
-</ol>
-<p>然后用户名还是原先的用户名，但是密码这里填写生成的token就行了。</p>
-<h3 id="4-每次提交都需要输账号密码"><a href="#4-每次提交都需要输账号密码" class="headerlink" title="4. 每次提交都需要输账号密码"></a>4. 每次提交都需要输账号密码</h3><p>后续在每次提交代码时，发现都需要输入账号密码，很麻烦，可找到<code>Blog</code>下的<code>_config.yml</code>文件里，原先<code>repository:</code>那里填写的是个人仓库的地址。改成</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth2:*******************@github.com/Wei-LL/Wei-LL.github.io.git</span><br></pre></td></tr></table></figure>
-
-<p>这里****填写的是token。后续每次提交就不用了输账号密码了。</p>
-<h3 id="5-Failed-to-connect-to-github-com-port-443-Timed-out"><a href="#5-Failed-to-connect-to-github-com-port-443-Timed-out" class="headerlink" title="5. Failed to  connect to github.com port 443: Timed out"></a>5. Failed to  connect to github.com port 443: Timed out</h3><p>在hexo init 命令初始化以及有时git clone代码时会碰到</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Failed to  connect to github.com port 443: Timed out</span><br></pre></td></tr></table></figure>
-
-<p>因为是网络问题，最直接的方法就是使用代理，后台挂号代理后，git窗口中</p>
-<p>设置git代理</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy localhost:7890</span><br></pre></td></tr></table></figure>
-
-<p>其中7890是代理的端口号，我用的clash，直接在clash主界面常规查看。</p>
-<p>记得之后取消代理</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br></pre></td></tr></table></figure>
-
-]]></content>
       <categories>
         <category>解决方案</category>
       </categories>
@@ -361,12 +361,6 @@
         <tag>短篇科幻小说</tag>
         <tag>艾萨克•阿西莫夫</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2023/06/17/hello-world/</url>
-    <content><![CDATA[<p>本打算搞一个用作记录的Blog，但是又不想使用其他网站的Blog功能，然后发现Github可以白嫖到免费的.github.io域名，于是一路下来，基于Hexo + Next主题搭建了自己的Blog。十分感谢知乎大佬<a href="https://www.zhihu.com/column/c_1201860091307458560">枫叶</a>提供的的建站教程。中间有碰到公钥之类的问题，后续有时间了会进行记录。总之这算一个新的开始~</p>
-]]></content>
   </entry>
   <entry>
     <title>铀花</title>
@@ -617,21 +611,10 @@
       </tags>
   </entry>
   <entry>
-    <title>LX Music - 开源音乐软件</title>
-    <url>/2023/06/29/%E5%B7%A5%E5%85%B7-LX%20Music/</url>
-    <content><![CDATA[<h1 id="LX-Music-开源音乐软件"><a href="#LX-Music-开源音乐软件" class="headerlink" title="LX Music - 开源音乐软件"></a>LX Music - 开源音乐软件</h1><p><a href="https://lxmusic.toside.cn/">https://lxmusic.toside.cn/</a></p>
-<p><a href="https://github.com/lyswhut/lx-music-desktop">https://github.com/lyswhut/lx-music-desktop</a></p>
-<p>原软件无法下载无损音乐，可配合第三方音源可实现无损下载：</p>
-<h2 id="六音自定义音源："><a href="#六音自定义音源：" class="headerlink" title="六音自定义音源："></a>六音自定义音源：</h2><p><a href="https://www.6yit.com/8498.html">https://www.6yit.com/8498.html</a></p>
-<p><a href="https://www.6yit.com/download?post=8498&time=1669881237">https://www.6yit.com/download?post=8498&amp;time=1669881237</a></p>
-<p>下载六音自定义音源文件的压缩包，下载完成后解压。打开洛雪音乐助手的设置，找到音乐来源，点击自定义源管理，然后点击导入，选择之前下载后解压出来的<code>sixyin-music-resource.js</code>文件。导入完成后，关闭弹窗，然后切换音乐来源为六音音源。切换后，会显示初始化成功，之后下载就可以选择无损音乐。</p>
+    <title>Hello World</title>
+    <url>/2023/06/17/hello-world/</url>
+    <content><![CDATA[<p>本打算搞一个用作记录的Blog，但是又不想使用其他网站的Blog功能，然后发现Github可以白嫖到免费的.github.io域名，于是一路下来，基于Hexo + Next主题搭建了自己的Blog。十分感谢知乎大佬<a href="https://www.zhihu.com/column/c_1201860091307458560">枫叶</a>提供的的建站教程。中间有碰到公钥之类的问题，后续有时间了会进行记录。总之这算一个新的开始~</p>
 ]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-      </tags>
   </entry>
   <entry>
     <title>镜中人</title>
@@ -803,6 +786,23 @@
       <tags>
         <tag>短篇科幻小说</tag>
         <tag>《科幻世界》</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LX Music - 开源音乐软件</title>
+    <url>/2023/06/29/%E5%B7%A5%E5%85%B7-LX%20Music/</url>
+    <content><![CDATA[<h1 id="LX-Music-开源音乐软件"><a href="#LX-Music-开源音乐软件" class="headerlink" title="LX Music - 开源音乐软件"></a>LX Music - 开源音乐软件</h1><p><a href="https://lxmusic.toside.cn/">https://lxmusic.toside.cn/</a></p>
+<p><a href="https://github.com/lyswhut/lx-music-desktop">https://github.com/lyswhut/lx-music-desktop</a></p>
+<p>原软件无法下载无损音乐，可配合第三方音源可实现无损下载：</p>
+<h2 id="六音自定义音源："><a href="#六音自定义音源：" class="headerlink" title="六音自定义音源："></a>六音自定义音源：</h2><p><a href="https://www.6yit.com/8498.html">https://www.6yit.com/8498.html</a></p>
+<p><a href="https://www.6yit.com/download?post=8498&time=1669881237">https://www.6yit.com/download?post=8498&amp;time=1669881237</a></p>
+<p>下载六音自定义音源文件的压缩包，下载完成后解压。打开洛雪音乐助手的设置，找到音乐来源，点击自定义源管理，然后点击导入，选择之前下载后解压出来的<code>sixyin-music-resource.js</code>文件。导入完成后，关闭弹窗，然后切换音乐来源为六音音源。切换后，会显示初始化成功，之后下载就可以选择无损音乐。</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
       </tags>
   </entry>
 </search>
