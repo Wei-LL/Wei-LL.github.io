@@ -1,17 +1,21 @@
-#web_bg {
-    background-image: url("../img/banner.jpg"),
-        linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35))
-}
-#post_bg {
-    background-image: url("../img/banner.jpg"),
-        linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35))
-}
+/*#web_bg {*/
+/*    background-image: url("../img/banner.jpg"),*/
+/*        linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35))*/
+/*}*/
+/*#post_bg {*/
+/*    background: rgba(0, 0, 0, 0.5)*/
+/*}*/
+
+/*#post_bg {*/
+/*    background-image: url("../img/banner.jpg"),*/
+/*        linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35))*/
+/*}*/
 /* 侧边栏个人信息卡片动态渐变色 */
 #aside-content>.card-widget.card-info{
-    background: linear-gradient(-45deg, rgba(24,40,72,.95),
+    background: linear-gradient(-45deg, rgba(24,40,72,.75),
 rgba(35,37,58,.95),
 rgba(35,37,58,.95),
-rgba(24,40,72,.95));
+rgba(24,40,72,.75));
 }
 [data-theme=dark] #aside-content>.card-widget.card-info {
     background: linear-gradient(-45deg, rgba(24,40,72,.2),
@@ -21,10 +25,10 @@ rgba(24,40,72,.2));
 }
 /* 侧边栏公告栏卡片渐变色 */
 #aside-content>.card-widget.card-announcement{
-    background: linear-gradient(-45deg, rgba(24,40,72,.95),
+    background: linear-gradient(-45deg, rgba(24,40,72,.75),
 rgba(35,37,58,.95),
 rgba(35,37,58,.95),
-rgba(24,40,72,.95));
+rgba(24,40,72,.75));
 }
 [data-theme=dark] #aside-content>.card-widget.card-announcement{
     background: linear-gradient(-45deg, rgba(24,40,72,.2), 
@@ -34,10 +38,10 @@ rgba(24,40,72,.2));
 }
 /* 侧边栏目录最新文章卡片渐变色 */
 #aside-content>.sticky_layout>.card-widget{
-    background: linear-gradient(-45deg, rgba(24,40,72,.95),
+    background: linear-gradient(-45deg, rgba(24,40,72,.75),
 rgba(35,37,58,.95),
 rgba(35,37,58,.95),
-rgba(24,40,72,.95));
+rgba(24,40,72,.75));
 }
 [data-theme=dark] #aside-content>.sticky_layout>.card-widget{
     background: linear-gradient(-45deg, rgba(24,40,72,.2), 
@@ -52,10 +56,10 @@ rgba(24,40,72,.2));
 }
 /*文章页面*/
 .layout>#post {
-    background: linear-gradient(-45deg, rgba(24,40,72,.95),
+    background: linear-gradient(-45deg, rgba(24,40,72,.75),
 rgba(35,37,58,.95),
 rgba(35,37,58,.95),
-rgba(24,40,72,.95));
+rgba(24,40,72,.75));
 }
 [data-theme=dark] .layout>#post {
     background: linear-gradient(-45deg, rgba(24,40,72,.2),
@@ -65,10 +69,10 @@ rgba(24,40,72,.2));
 }
 /*主页文章预览页面*/
 #recent-posts>.recent-post-item{
-    background: linear-gradient(-45deg, rgba(24,40,72,.95),
+    background: linear-gradient(-45deg, rgba(24,40,72,.75),
 rgba(35,37,58,.95),
 rgba(35,37,58,.95),
-rgba(24,40,72,.95));
+rgba(24,40,72,.75));
 }
 [data-theme=dark] #recent-posts>.recent-post-item{
     background: linear-gradient(-45deg, rgba(24,40,72,.2), 
@@ -79,10 +83,10 @@ rgba(24,40,72,.2));
 
 /*分类页面*/
 .layout>#page {
-    background: linear-gradient(-45deg, rgba(24,40,72,.95),
+    background: linear-gradient(-45deg, rgba(24,40,72,.75),
 rgba(35,37,58,.95),
 rgba(35,37,58,.95),
-rgba(24,40,72,.95));
+rgba(24,40,72,.75));
 }
 [data-theme=dark] .layout>#page {
     background: linear-gradient(-45deg, rgba(24,40,72,.2), 
@@ -91,10 +95,10 @@ rgba(35,37,58,.9),
 rgba(24,40,72,.2));
 }
 .layout>#category {
-    background: linear-gradient(-45deg, rgba(24,40,72,.95),
+    background: linear-gradient(-45deg, rgba(24,40,72,.75),
 rgba(35,37,58,.95),
 rgba(35,37,58,.95),
-rgba(24,40,72,.95));
+rgba(24,40,72,.75));
 }
 [data-theme=dark] .layout>#category {
     background: linear-gradient(-45deg, rgba(24,40,72,.2),
@@ -103,17 +107,12 @@ rgba(35,37,58,.9),
 rgba(24,40,72,.2));
 }
 
-
-
-
-
-
 /*时间轴页面*/
 .layout>#archive {
-    background: linear-gradient(-45deg, rgba(24,40,72,.95),
+    background: linear-gradient(-45deg, rgba(24,40,72,.75),
 rgba(35,37,58,.95),
 rgba(35,37,58,.95),
-rgba(24,40,72,.95));
+rgba(24,40,72,.75));
 }
 [data-theme=dark] .layout>#archive {
     background: linear-gradient(-45deg, rgba(24,40,72,.2), 
