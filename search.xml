@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hexo + Butterfly主题美化</title>
+    <url>/2023/06/23/Butterfly%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<p>搭建时是Hexo + Next主题，Next主题比较简约直观，本打算就直接用Next，但之后发现了Butterfly主题也很好看，就配置了Butterfly主题</p>
+<p>Next主题：<a href="https://theme-next.js.org/%EF%BC%8Chttps://github.com/theme-next/hexo-theme-next">https://theme-next.js.org/，https://github.com/theme-next/hexo-theme-next</a></p>
+<p>Butterfly主题：<a href="https://github.com/jerryc127/hexo-theme-butterfly">https://github.com/jerryc127/hexo-theme-butterfly</a></p>
+<h3 id="1-文章加密"><a href="#1-文章加密" class="headerlink" title="1. 文章加密"></a>1. 文章加密</h3><p>利用 <a href="https://github.com/D0n9X1n/hexo-blog-encrypt">hexo-blog-encrypt</a> 实现文章加密，安装命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install --save hexo-blog-encrypt</span><br></pre></td></tr></table></figure>
+
+<p>然后在文章的开头部分加入 <code>password</code>， <code>abstract</code>等，例如：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Hello World</span><br><span class="line">...</span><br><span class="line">password: mikemessi</span><br><span class="line">abstract: Here&#x27;s something encrypted, password is required to continue reading.</span><br><span class="line">message: Hey, password is required here.</span><br><span class="line">wrong<span class="emphasis">_pass_</span>message: Oh, this is an invalid password. Check and try again, please.</span><br><span class="line"><span class="section">wrong<span class="emphasis">_hash_</span>message: Oh, these decrypted content cannot be verified, but you can still have a look.</span></span><br><span class="line"><span class="section">---</span></span><br></pre></td></tr></table></figure>
+
+<p>但是有个问题就是加密后，主页文章预览会显示一串乱码，暂时不知如何解决。</p>
+<h3 id="2-主页Subtitle打字效果"><a href="#2-主页Subtitle打字效果" class="headerlink" title="2. 主页Subtitle打字效果"></a>2. 主页Subtitle打字效果</h3><p>默认没有启用，在主题下的<code>_config.yml</code>中将<code>enable</code>设置为<code>true</code>:</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">subtitle:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Typewriter Effect (打字效果)</span></span><br><span class="line">  <span class="attr">effect:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Customize typed.js (配置typed.js)</span></span><br><span class="line">  <span class="comment"># https://github.com/mattboldt/typed.js/#customization</span></span><br><span class="line">  <span class="attr">typed_option:</span></span><br><span class="line">  <span class="comment"># source 調用第三方服務</span></span><br><span class="line">  <span class="comment"># source: false 關閉調用</span></span><br><span class="line">  <span class="comment"># source: 1  調用一言網的一句話（簡體） https://hitokoto.cn/</span></span><br><span class="line">  <span class="comment"># source: 2  調用一句網（簡體） https://yijuzhan.com/</span></span><br><span class="line">  <span class="comment"># source: 3  調用今日詩詞（簡體） https://www.jinrishici.com/</span></span><br><span class="line">  <span class="comment"># subtitle 會先顯示 source , 再顯示 sub 的內容</span></span><br><span class="line">  <span class="attr">source:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># 如果關閉打字效果，subtitle 只會顯示 sub 的第一行文字</span></span><br><span class="line">  <span class="attr">sub:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">They</span> <span class="string">were</span> <span class="string">only</span> <span class="string">two,</span> <span class="string">on</span> <span class="string">the</span> <span class="string">planet.</span></span><br></pre></td></tr></table></figure>
+
+<p>显示文字要以-加空格开头，可显示多行。但是实际操作中，在打开打字效果时，就完全不显示subtitle，查阅了<a href="https://github.com/jerryc127/hexo-theme-butterfly">butterfly github</a> 中的 <a href="https://github.com/jerryc127/hexo-theme-butterfly/issues/1259">issues</a> 记录，可能的原因是 subtitle 用的<code>typed.js</code>的<code>cdnjs</code> 没有更新，所以获取不到，可以手动添加上CDN，在 <a href="https://github.com/mattboldt/typed.js/">typed.js</a>中找到CDN：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>复制中间的网址，打开<code>themes</code>下的<code>_config.yml</code>，拉到最下面，取消注释<code>typed</code>，并填入网址：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">option:</span></span><br><span class="line">	<span class="attr">typed:</span> <span class="string">https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-文章结尾版权信息"><a href="#3-文章结尾版权信息" class="headerlink" title="3. 文章结尾版权信息"></a>3. 文章结尾版权信息</h3><p>默认文章结尾的版权信息中虽然文章作者是对的，但是作者跳转的链接以及文章链接都是是一个例子网站，修改themes下的_config.yml中的post_copyright：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_copyright:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">decode:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">author_href:</span> <span class="string">https://wei-ll.github.io/</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">CC</span> <span class="string">BY-NC-SA</span> <span class="number">4.0</span></span><br><span class="line">  <span class="attr">license_url:</span> <span class="string">https://creativecommons.org/licenses/by-nc-sa/4.0/</span></span><br></pre></td></tr></table></figure>
+
+<p>改完后发现文章链接的地址开头还是example，还需要修改根目录下<code>_config.yml</code>中的url为我的仓库地址。</p>
+<h3 id="4-文章页面以及侧边栏卡片颜色及透明度设置"><a href="#4-文章页面以及侧边栏卡片颜色及透明度设置" class="headerlink" title="4. 文章页面以及侧边栏卡片颜色及透明度设置"></a>4. 文章页面以及侧边栏卡片颜色及透明度设置</h3><p>为配合背景图片以及Head图片，可设置文章页面以及侧边栏卡片颜色及透明度，基本参考<a href="https://zhuanlan.zhihu.com/p/582638450">https://zhuanlan.zhihu.com/p/582638450</a> ，用博文里的代码只实现了背景图片的设置，其他均没有其作用，通过大量搜索和查阅代码，一点一点搞好了。</p>
+<p>步骤如下：</p>
+<ol>
+<li><p>在根目录下的<code>source</code>文件夹下建一个我自己的文件夹，并在下面建立<code>CSS</code>文件夹，新建<code>myStyle.css</code>文件，这里文件不放在butterfly主题下是防止主题更新覆盖掉，并且顺手把主题下的<code>img</code>文件夹以里面的图片也迁到根目录<code>source</code>下。</p>
+</li>
+<li><p>在<code>myStyle.css</code>写入如下代码：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-id">#web_bg</span> &#123;</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">&quot;../img/banner.jpg&quot;</span>),</span><br><span class="line">        <span class="built_in">linear-gradient</span>(<span class="number">60deg</span>, <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">165</span>, <span class="number">150</span>, <span class="number">0.5</span>) <span class="number">5%</span>, <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">228</span>, <span class="number">255</span>, <span class="number">0.35</span>))</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#post_bg</span> &#123;</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">&quot;../img/banner.jpg&quot;</span>),</span><br><span class="line">        <span class="built_in">linear-gradient</span>(<span class="number">60deg</span>, <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">165</span>, <span class="number">150</span>, <span class="number">0.5</span>) <span class="number">5%</span>, <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">228</span>, <span class="number">255</span>, <span class="number">0.35</span>))</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 侧边栏个人信息卡片动态渐变色 */</span></span><br><span class="line"><span class="selector-id">#aside-content</span>&gt;<span class="selector-class">.card-widget</span><span class="selector-class">.card-info</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">6</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">6</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-attr">[data-theme=dark]</span> <span class="selector-id">#aside-content</span>&gt;<span class="selector-class">.card-widget</span><span class="selector-class">.card-info</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 侧边栏公告栏卡片渐变色 */</span></span><br><span class="line"><span class="selector-id">#aside-content</span>&gt;<span class="selector-class">.card-widget</span><span class="selector-class">.card-announcement</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">6</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">6</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-attr">[data-theme=dark]</span> <span class="selector-id">#aside-content</span>&gt;<span class="selector-class">.card-widget</span><span class="selector-class">.card-announcement</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 侧边栏目录最新文章卡片渐变色 */</span></span><br><span class="line"><span class="selector-id">#aside-content</span>&gt;<span class="selector-class">.sticky_layout</span>&gt;<span class="selector-class">.card-widget</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">6</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">6</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-attr">[data-theme=dark]</span> <span class="selector-id">#aside-content</span>&gt;<span class="selector-class">.sticky_layout</span>&gt;<span class="selector-class">.card-widget</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 个人信息Follow me按钮 */</span></span><br><span class="line"><span class="selector-id">#aside-content</span>&gt;<span class="selector-class">.card-widget</span><span class="selector-class">.card-info</span>&gt;<span class="selector-id">#card-info-btn</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#3eb8be</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">8px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*文章页面*/</span></span><br><span class="line"><span class="selector-class">.layout</span>&gt;<span class="selector-id">#post</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">8</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">8</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-attr">[data-theme=dark]</span> <span class="selector-class">.layout</span>&gt;<span class="selector-id">#post</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*主页文章预览页面*/</span></span><br><span class="line"><span class="selector-id">#recent-posts</span>&gt;<span class="selector-class">.recent-post-item</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">8</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">8</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-attr">[data-theme=dark]</span> <span class="selector-id">#recent-posts</span>&gt;<span class="selector-class">.recent-post-item</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*分类页面*/</span></span><br><span class="line"><span class="selector-class">.layout</span>&gt;<span class="selector-id">#page</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">8</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">8</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-attr">[data-theme=dark]</span> <span class="selector-class">.layout</span>&gt;<span class="selector-id">#page</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*时间轴页面*/</span></span><br><span class="line"><span class="selector-class">.layout</span>&gt;<span class="selector-id">#archive</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">8</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">225</span>,<span class="number">235</span>,<span class="number">255</span>,.<span class="number">8</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-attr">[data-theme=dark]</span> <span class="selector-class">.layout</span>&gt;<span class="selector-id">#archive</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(-<span class="number">45deg</span>, <span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">35</span>,<span class="number">37</span>,<span class="number">58</span>,.<span class="number">9</span>), </span><br><span class="line"><span class="built_in">rgba</span>(<span class="number">24</span>,<span class="number">40</span>,<span class="number">72</span>,.<span class="number">2</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中每个页面的名称可通过在网页按F12查看，<code>background: linear-gradient(渐变方向，颜色）</code>是用来设置渐变颜色的页面，可使用十六进制颜色码，可在<a href="https://uigradients.com/#Mantle">uigradient</a>查看颜色代码甚至CSS代码，我这里为了设置透明效果，需要使用rgba颜色值，在<a href="https://www.sioe.cn/yingyong/yanse-rgb-16/">https://www.sioe.cn/yingyong/yanse-rgb-16/</a> 上可方便转换。</p>
+</li>
+<li><p>在themes下的<code>_config.yml</code>里的inject下引用<code>myStyle.css</code>：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">inject:</span><br><span class="line">  head:</span><br><span class="line">     - &lt;link rel=<span class="string">&quot;stylesheet&quot;</span> href=<span class="string">&quot;/self/css/myStyle.css&quot;</span>&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>中间其实一部分代码没什么问题，却一直不起作用，无意中删除了前后的一些空行或者空格，发现居然管用了，突然感觉估计是代码缩进的问题，因为我是直接用记事本打开的.css文件，之后记着还是用Pycharm打开吧。</p>
+<h3 id="5-字体颜色修改"><a href="#5-字体颜色修改" class="headerlink" title="5. 字体颜色修改"></a>5. 字体颜色修改</h3><p>Butterfly主题是自带浅色和深色模式切换的，在浅色模式下，由于之前配置了页面透明度，感觉字看不太清，所以决定把页面改为和深色模式一样，除了修改页面颜色外，还需把字体颜色改为白色，这里直接改了全局foot颜色，在主题下的<code>source-css-var.styl</code>文件里，修改：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">$<span class="attribute">font</span>-<span class="attribute">color</span> = <span class="selector-id">#FFFFFF</span> //<span class="selector-id">#1F2D3D</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">$<span class="attribute">font</span>-black = <span class="selector-id">#FFFFFF</span> //<span class="selector-id">#4C4948</span></span><br></pre></td></tr></table></figure>
+
+<p>这样，深色模式切换时就只是背景和整体的亮度变暗。</p>
+<h3 id="6-添加看板娘"><a href="#6-添加看板娘" class="headerlink" title="6. 添加看板娘"></a>6. 添加看板娘</h3><ol>
+<li><p>官方有提供live2d，这里想配置加强版看板娘，需先卸载原始live2d：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-helper-live2d</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>项目下载地址：<a href="https://github.com/stevenjoezhang/live2d-widget">live2d-widget</a>， 解压到<code>themes\butterfly\source\</code>文件夹下，记得删除文件夹名后缀<code>-master</code></p>
+</li>
+<li><p>打开<code>live2d-widget</code>下的<code>autoload.js</code>文件，将<code>live2d_path</code>设为自己的路径，一般就是注释掉网址，取消<code>/live2d-widget/</code>的注释。</p>
+</li>
+<li><p>打开<code>butterfly</code>-<code>layout</code>-<code>includes</code>目录，点击修改<code>head.pug</code>文件，在文件末尾粘贴：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">script(src=&#x27;/live2d-widget/autoload.js&#x27;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后在主题配置文件下即butterfly下的_config.yml中开启看板娘：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 看板娘</span></span><br><span class="line"><span class="attr">live2d:</span>  </span><br><span class="line">	<span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>下面是一些自定义配置：</p>
+<ul>
+<li>修改首次加载的模型：</li>
+</ul>
+<p><code>live2d-widget</code>-<code>src</code>-<code>index.js</code>中：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">(<span class="keyword">function</span> <span class="title function_">initModel</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> modelId = <span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&quot;modelId&quot;</span>),</span><br><span class="line">        modelTexturesId = <span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&quot;modelTexturesId&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (modelId === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 首次访问加载 指定模型 的 指定材质</span></span><br><span class="line">        modelId = <span class="number">3</span>; <span class="comment">// 模型 ID</span></span><br><span class="line">        modelTexturesId = <span class="number">53</span>; <span class="comment">// 材质 ID</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>live2d-widget</code>文件夹下的<code>waifu-tips.js</code>中：</p>
+<ul>
+<li>修改看板娘的位置：其中人物距离底部的位置<code>margin-bottom</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">#waifu &#123;</span><br><span class="line">   <span class="attr">bottom</span>: -1000px;</span><br><span class="line">   <span class="attr">left</span>: <span class="number">0</span>;</span><br><span class="line">   line-<span class="attr">height</span>: <span class="number">0</span>;</span><br><span class="line">   margin-<span class="attr">bottom</span>: 10px;</span><br><span class="line">   <span class="attr">position</span>: fixed;</span><br><span class="line">   <span class="attr">transform</span>: <span class="title function_">translateY</span>(3px);</span><br><span class="line">   <span class="attr">transition</span>: transform .3s ease-<span class="keyword">in</span>-out, bottom 3s ease-<span class="keyword">in</span>-out;</span><br><span class="line">   z-<span class="attr">index</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>人物大小</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">#live2d &#123;</span><br><span class="line">   <span class="attr">cursor</span>: grab;</span><br><span class="line">   <span class="attr">height</span>: 200px;</span><br><span class="line">   <span class="attr">position</span>: relative;</span><br><span class="line">   <span class="attr">width</span>: 200px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>按钮位置</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">#waifu-tool &#123;</span><br><span class="line">	<span class="attr">color</span>: #aaa;</span><br><span class="line">	<span class="attr">opacity</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attr">position</span>: absolute;</span><br><span class="line">	<span class="attr">right</span>: 10px;</span><br><span class="line">	<span class="attr">top</span>: 20px;</span><br><span class="line">	<span class="attr">transition</span>: opacity 1s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>按钮间距</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">#waifu-tool span &#123;</span><br><span class="line">   <span class="attr">display</span>: block;</span><br><span class="line">   <span class="attr">height</span>: 25px;</span><br><span class="line">   text-<span class="attr">align</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>按钮大小</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">#waifu-tool svg &#123;</span><br><span class="line">   <span class="attr">fill</span>: #7b8c9d;</span><br><span class="line">   <span class="attr">cursor</span>: pointer;</span><br><span class="line">   <span class="attr">height</span>: 20px;</span><br><span class="line">   <span class="attr">transition</span>: fill .3s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-主页文章封面"><a href="#7-主页文章封面" class="headerlink" title="7. 主页文章封面"></a>7. 主页文章封面</h3><p>主题下的<code>_config.yml</code>里，<code>cover</code>改为<code>true</code>开启文章封面功能：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cover:</span></span><br><span class="line">  <span class="comment"># display the cover or not (是否顯示文章封面)</span></span><br><span class="line">  <span class="attr">index_enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">aside_enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">archives_enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># the position of cover in home page (封面顯示的位置)</span></span><br><span class="line">  <span class="comment"># left/right/both</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">both</span></span><br><span class="line">  <span class="comment"># When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)</span></span><br><span class="line">  <span class="attr">default_cover:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/self/img/banner.jpg</span></span><br></pre></td></tr></table></figure>
+
+<p>每篇文章单独设置封面，需要在文章里<code>Fort-matter</code>里添加<code>cover</code>，后面跟封面图片地址，可以是网址和相对路径：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">cover: https://lxmusic.toside.cn/img/logo.svg</span><br><span class="line"></span><br><span class="line">cover: /self/img/cover/最后的问题.jpg</span><br></pre></td></tr></table></figure>
+
+<p>这里相对路径是根目录下source里我自己建立的self文件夹下存放的图片。</p>
+<h3 id="8-评论系统"><a href="#8-评论系统" class="headerlink" title="8. 评论系统"></a>8. 评论系统</h3><p>修改主题下<code>_config.yml</code>文件：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">comments:</span></span><br><span class="line">  <span class="comment"># Up to two comments system, the first will be shown as default</span></span><br><span class="line">  <span class="comment"># Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42/Artalk</span></span><br><span class="line">  <span class="attr">use:</span> <span class="string">Valine</span> <span class="comment"># Valine,Disqus</span></span><br><span class="line">  <span class="attr">text:</span> <span class="literal">true</span> <span class="comment"># Display the comment name next to the button</span></span><br><span class="line">  <span class="comment"># lazyload: The comment system will be load when comment element enters the browser&#x27;s viewport.</span></span><br><span class="line">  <span class="comment"># If you set it to true, the comment count will be invalid</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">count:</span> <span class="literal">true</span> <span class="comment"># Display comment count in post&#x27;s top_img</span></span><br><span class="line">  <span class="attr">card_post_count:</span> <span class="literal">false</span> <span class="comment"># Display comment count in Home Page</span></span><br></pre></td></tr></table></figure>
+
+<p>这里启用了<code>Valine</code>，参考<a href="https://valine.js.org/quickstart.html">Valine</a> 进行配置。其他评论系统可参考<a href="https://blog.csdn.net/qq_38157825/article/details/112783083">https://blog.csdn.net/qq_38157825/article/details/112783083</a></p>
+<h3 id="9-搜索"><a href="#9-搜索" class="headerlink" title="9. 搜索"></a>9. 搜索</h3><p>我这里之开启了本地搜索local_search，按照<a href="https://butterfly.js.org/posts/ceeb73f#%E6%90%9C%E7%B4%A2">butterfly说明文档</a>，安装<a href="https://github.com/next-theme/hexo-generator-searchdb">hexo-generator-searchdb</a>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb</span><br></pre></td></tr></table></figure>
+
+<p>修改主题配置文件：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Preload the search data when the page loads.</span></span><br><span class="line">  <span class="attr">preload:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># Show top n results per article, show all results by setting to -1</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">1</span></span><br><span class="line">  <span class="comment"># Unescape html strings to the readable one.</span></span><br><span class="line">  <span class="attr">unescape:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">CDN:</span></span><br></pre></td></tr></table></figure>
+
+<p>配置完成后网站右上角会出现搜索按钮：</p>
+<p><img src="https://gitee.com/lw100226/drawing-bed/raw/master/image-20230701163556896.png" alt="image-20230701163556896"></p>
+<p>默认搜索页面背景是白色的，由于我之前把字体都改成了亮色，这里看不清，在主题下<code>source</code>-<code>css</code>-<code>var.styl</code>文件加下修改搜索背景颜色为暗色：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">$search-bg</span> <span class="string">=</span> <span class="comment">#25253A //#f6f8fa</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>解决方案</category>
+      </categories>
+      <tags>
+        <tag>解决方案</tag>
+        <tag>博客搭建</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo+Next 搭建过程碰到的问题</title>
+    <url>/2023/06/22/Hexo-Next-%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E7%A2%B0%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h3 id="1-master改为main"><a href="#1-master改为main" class="headerlink" title="1. master改为main"></a>1. master改为main</h3><p>GitHub最近已经把主分支改为main了，不在是master，所以<code>Blog</code>下的 <code>_config.yml</code>文件里应该是</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
+
+<p>其他与<code>master</code>有关的也命令也需要用<code>main</code>。</p>
+<h3 id="2-Git-error-Host-Key-Verification-Failed"><a href="#2-Git-error-Host-Key-Verification-Failed" class="headerlink" title="2. Git error:Host Key Verification Failed"></a>2. Git error:Host Key Verification Failed</h3><p>用git上传文件到GitHub首先得利用SSH登录远程主机，在利用公钥登录时，输入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>进行检验，出现 <code>Git error:Host Key Verification Failed</code>错误，出现错误的主要问题是<code>known_hosts</code>文件的配置问题，参考<a href="https://stackoverflow.com/questions/13363553/git-error-host-key-verification-failed-when-connecting-to-remote-repository/29908140#29908140">stackoverflow回答</a>：</p>
+<ol>
+<li><code>mkdir -p ~/.ssh</code></li>
+<li><code>ssh-keyscan -t rsa github.com &gt;&gt; ~/.ssh/known_hosts</code></li>
+<li><code>ssh-keygen -t rsa -C &quot;user.email&quot;</code></li>
+<li>open the public key with this command <code>$ cat ~/.ssh/id_rsa.pub</code> and copy it.</li>
+<li>Add the <em>id_rsa.pub</em> key to SSH keys list on your GitHub profile.</li>
+</ol>
+<h3 id="3-error-failed-to-push-some-refs-to-‘xxx-x2F-xx’"><a href="#3-error-failed-to-push-some-refs-to-‘xxx-x2F-xx’" class="headerlink" title="3. error: failed to push some refs to ‘xxx&#x2F;xx’"></a>3. error: failed to push some refs to ‘xxx&#x2F;xx’</h3><p>执行<code>git push origin master</code>时，弹出窗口需要输入用户名和密码，用户名输的github名，密码刚开始是github登陆密码，但是错了。提示说21年8月后不允许使用用户名和密码登陆了，解决方法是使用Personal access tokens。令牌方式登录：</p>
+<ol>
+<li>直接打开 <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> 这个界面，或登录Github后点击<code>头像</code>-<code>settings</code>-左侧列表<code>Developer settings</code>-<code>Personal access tokens</code></li>
+<li>右上点击<code>Generate new token</code></li>
+<li><code>note</code>随便填写，选择过期时间</li>
+<li>勾选上下边的全部。（这个是token具有的权限）</li>
+<li>最后点击底部的<code>Generate token</code> 生成token</li>
+</ol>
+<p>然后用户名还是原先的用户名，但是密码这里填写生成的token就行了。</p>
+<h3 id="4-每次提交都需要输账号密码"><a href="#4-每次提交都需要输账号密码" class="headerlink" title="4. 每次提交都需要输账号密码"></a>4. 每次提交都需要输账号密码</h3><p>后续在每次提交代码时，发现都需要输入账号密码，很麻烦，可找到<code>Blog</code>下的<code>_config.yml</code>文件里，原先<code>repository:</code>那里填写的是个人仓库的地址。改成</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth2:*******************@github.com/Wei-LL/Wei-LL.github.io.git</span><br></pre></td></tr></table></figure>
+
+<p>这里****填写的是token。后续每次提交就不用了输账号密码了。</p>
+<h3 id="5-Failed-to-connect-to-github-com-port-443-Timed-out"><a href="#5-Failed-to-connect-to-github-com-port-443-Timed-out" class="headerlink" title="5. Failed to  connect to github.com port 443: Timed out"></a>5. Failed to  connect to github.com port 443: Timed out</h3><p>在hexo init 命令初始化以及有时git clone代码时会碰到</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Failed to  connect to github.com port 443: Timed out</span><br></pre></td></tr></table></figure>
+
+<p>因为是网络问题，最直接的方法就是使用代理，后台挂号代理后，git窗口中</p>
+<p>设置git代理</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy localhost:7890</span><br></pre></td></tr></table></figure>
+
+<p>其中7890是代理的端口号，我用的clash，直接在clash主界面常规查看。</p>
+<p>记得之后取消代理</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>解决方案</category>
+      </categories>
+      <tags>
+        <tag>解决方案</tag>
+        <tag>博客搭建</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最后的问题</title>
+    <url>/2023/06/29/%E4%B8%AA%E4%BA%BA%E6%94%B6%E8%97%8F-%E7%9F%AD%E7%AF%87%E7%A7%91%E5%B9%BB%E5%B0%8F%E8%AF%B4-%E6%9C%80%E5%90%8E%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="最后的问题"><a href="#最后的问题" class="headerlink" title="最后的问题"></a>最后的问题</h1><p><strong>作者：（美）艾萨克•阿西莫夫</strong></p>
+<p>　　最后的问题第一次被半开玩笑地提出是在2061年的5月21日。那时人类文明刚刚步入曙光中。这个问题源起于酒酣之中一个五美元的赌，它是这么发生的：</p>
+<p>　　亚历山大·阿代尔与贝特伦·卢泊夫是Multivac的两个忠实的管理员。像任何其他人一样，他们知道在那台巨大的计算机数英里冰冷、闪烁、滴答作响的面庞后藏着什么。那些电子回路早已发展到任何个别的人都无法完全掌握的地步，但他们至少对它的大致蓝图有个基本的概念。</p>
+<p>　　Multivac能自我调节和自我修正。这对它是必要的，因为人类当中没有谁能够快甚至够好地对它进行调节和修正。所以实际上阿代尔与卢泊夫对这个庞然大物只进行一些非常轻松和肤浅的管理，任何其他人也都只能做到这个程度。他们给它输送数据，根据它所需的格式修改问题，然后翻译给出的答案。当然，他们以及其他管理员们完全有资格分享属于Multivac的荣誉。</p>
+<p>　　几十年中，在Multivac的帮助下人类建造了宇宙飞船，计算出航行路径，从而得以登陆月球、火星和金星。但是更远的航行需要大量的能量，地球上可怜的资源不足以支持这些飞船。尽管人类不断地提高煤炭和核能的利用效率，但煤和铀都是有限的。</p>
+<p>　　但是慢慢地Multivac学会了如何从根本上解决某些深层次问题。2061年5月14日，理论成为了现实。</p>
+<p>　　太阳的能量被储存和转化，得以被全球规模地直接利用。整个地球熄灭了燃烧的煤炭，关闭了核反应炉，打开了连接到那个小小的太阳能空间站的开关。这个空间站直径一英里，在到月球的距离一半处环绕着地球。看不见的太阳的光束支撑着整个地球社会的运行。</p>
+<p>七天的庆祝还不足以暗淡这创举的光辉。阿代尔与卢泊夫总算逃脱了公众事务，悄悄地相聚在这个谁也想不到的荒僻的地下室。在这里Multivac埋藏着的庞大身躯露出了一部分。它正独自闲暇地整理着数据，发出满足的、慵懒的滴答声——它也得到了假期。他们了解这一点，一开始他们并没打算打扰它。</p>
+<p>　　他们带来了一瓶酒。这会儿他们想做的只是在一起，喝喝酒，放松放松。</p>
+<p>　　“你想一想就会觉得很神奇，”阿代尔说。他宽阔的脸庞已有了疲倦的纹路。他慢慢地用玻璃棒搅动着酒，看着冰块笨拙地滑动。“从此我们所用的所有能量都是免费的。只要我们愿意，我们能把地球熔化成一颗液态大铁球——还能毫不在乎花掉的能量。够我们永远永远永远用下去的能量。</p>
+<p>　　卢泊夫将头歪向一边，这是当他想要反驳对方时的习惯动作。他现在确实想要反驳，部分原因是他在负责拿着冰和杯子。他说：“不是永远。”</p>
+<p>　　“哦去你的，差不多就是永远。直到太阳完蛋，老贝。”</p>
+<p>　　“那就不是永远。”</p>
+<p>　　“好吧。几十亿年，可能一百亿年，满意了吧？”</p>
+<p>　　卢泊夫用手梳着他稀薄的头发，仿佛要确认还剩下了一些。他缓缓地抿着自己的酒说，“一百亿年也不是永远。”</p>
+<p>　　“但对我们来说是够了，不是吗？”</p>
+<p>“煤和铀对我们来说也够了。”</p>
+<p>　　“好好好，但是现在我们能把宇宙飞船连接到太阳能电站，然后飞到冥王星又飞回来一百万次而不用担心燃料。靠煤和铀你就做不到。不信去问问Multivac。”</p>
+<p>　　“我不用问它。我知道。”</p>
+<p>　　“那就不要小看Multivac为我们做的事，”阿代尔怒道，“它做得很好。”</p>
+<p>　　“谁说它做得不好？我是说太阳不能永远燃烧下去，我只是这个意思。我们在一百亿年内可以高枕无忧，但是然后呢？”卢泊夫用略微颤抖的手指指着对方，“不要说我们换另外一个太阳。”</p>
+<p>　　片刻的沉默。阿代尔偶尔将酒杯放到唇边，而卢泊夫慢慢地闭上了眼睛。两人都在休息。</p>
+<p>　　然后卢泊夫突然睁开眼，“你在想当我们的太阳没了就换另外一个太阳，是吧？”</p>
+<p>　　“我没这么想。”</p>
+<p>　　“完全正确，”卢泊夫嘟哝道，“一切都在起初那个宇宙大爆炸中有个开始，不管那到底是怎么回事。当所有的恒星都熄灭了，一切也都会有个结束。有的星星熄灭得比别的早。像那些该死的巨星维持不了一亿年。我们的太阳能持续一百亿年，矮星再怎么样最多也只有两千亿年。一万亿年后一切都是一片漆黑。熵必须增加到最大值，就是这样。”</p>
+<p>　　“我非常明白什么是熵，”阿代尔维护着他的自尊。</p>
+<p>　　“你明白个屁。”</p>
+<p>　　“我跟你知道的一样多。”</p>
+<p>　　“那你该知道某一天所有的东西都会耗光。”</p>
+<p>　　“是是是。谁说它们不会呢？”</p>
+<p>　　“你说的，你这个糊涂虫。你说我们有永远用不完的能量。你说的‘永远’”</p>
+<p>　　现在轮到阿代尔反驳了。他说：“也许有一天我们能让一切从头开始。”</p>
+<p>　　“绝不可能。”</p>
+<p>　　“为什么？总有那么一天的。”</p>
+<p>　　“没有。”</p>
+<p>　　“问问Multivac。”</p>
+<p>　　“你去问Multivac。你敢吗？我赌五美元它说这不可能。”</p>
+<p>　　阿代尔刚刚醉到愿意一试，又刚刚足够清醒到能拼写出问问题需要的符号和算式。这个问题用文字来表达就是：人类是否有一天能不需要净损耗能量而在恒星衰竭之后将其恢复到全盛时期？</p>
+<p>　　或者更简明地这样说：怎样使宇宙的总熵大幅度地降低？</p>
+<p>　　Multivac陷入了静止和沉默。缓慢闪烁的灯光熄灭了，深处传来的电路的滴答声停止了。</p>
+<p>　　正当这两位被吓坏的技术员感到他们无法再屏住呼吸时，忽然间与Multivac相连的打字机开始运作起来。它打出几个字：数据不足，无法作答。</p>
+<p>　　“赌不成了。”卢泊夫悄声道。他们匆忙离开了。</p>
+<p>　　到了第二天早晨，两人头晕脑胀，口干舌燥，把这件事给忘了。</p>
+<p>　　贾诺德、贾诺汀和贾诺蒂I、贾诺蒂II注视着屏幕中变幻的星空影像。飞船在超越时间的一瞬中穿越了超时空，均匀分布的星群立刻被一个明亮的圆盘取代。它弹珠大小，占据着屏幕的中心。</p>
+<p>　　“那就是X-23，”贾诺德自信地说。他紧握着的瘦削的手背在身后，指节发白。</p>
+<p>　　两个小贾诺蒂都是女孩。她们一生中第一次经历超时空飞行，清晰地感到那种片刻的恶心①。她们悄声地嘻笑着，疯狂地绕着她们的母亲互相追逐，一边尖叫：“我们到X-23了——我们到X-23了——我们——”</p>
+<p>“孩子们，别闹了！”贾诺汀严厉地说。“你确定吗，贾诺德？”</p>
+<p>“有什么不确定的？”贾诺德瞟了一眼天花板上凸出的那块毫不起眼的金属。它从房间的一头延伸到另一头，两端埋入墙壁中。它和整个飞船一样长。</p>
+<p>　　贾诺德对这条厚厚的金属棒几乎一无所知。他只知道它叫做Microvac，你可以问它任何问题，而平时它控制着飞船飞向目的地，从不同的银河系能量分站向飞船输送能量，并完成进行超时空跳跃的计算。</p>
+<p>　　贾诺德一家只需要住在飞船舒适的居住区等待。曾经有人告诉贾诺德，“Microvac”词尾的“ac”是古英语中“automatic computer，智能电脑”的缩写。但他差不多连这都忘了。</p>
+<p>　　贾诺汀看着视屏，眼睛有些湿润。“没办法。想到离开了地球我感觉怪怪的。”</p>
+<p>　　“这么多的恒星，这么多的行星。”贾诺汀想着心事，叹息道。“我想人们会永远不断地出发去找新的行星，就像我们现在这样。”</p>
+<p>　　“不是永远，”贾诺德笑了一笑说。“有一天这一切都会停下来，但那是在几十亿年之后了。好几十亿年。即使是星星也会耗尽，你知道的。熵必须不断增大。”</p>
+<p>“爸爸，熵是什么？”贾诺蒂II喊道。</p>
+<p>“小宝贝，熵，就是一个代表着宇宙消耗掉了多少的词。什么东西都会消耗，知道吗，就像你那个会走路会说话的小机器人，记得吧？”</p>
+<p>“你不能给它装一个新的电池吗，就像给我的机器人那样？”</p>
+<p>　　“星星们就是电池，亲爱的。一旦它们用完了，就没有别的电池了。”</p>
+<p>　　贾诺蒂I一下子大喊起来：“别让它们用完，爸爸。别让星星们用完吧。”</p>
+<p>　　“看看你干了什么。”贾诺汀恼火地低声说道。</p>
+<p>　　“我怎么知道这会吓到她们？”贾诺德低声反驳。</p>
+<p>　　“问问Microvac，”贾诺蒂I哭叫道。“问它怎么把星星重新点亮。”</p>
+<p>　　“问吧，”贾诺汀说。“这会让她们安静点的。”(贾诺蒂II也开始哭了。)</p>
+<p>　　贾诺德耸耸肩。“好了，好了，亲爱的。我去问Microvac。别着急，它会告诉我们的。”</p>
+<p>　　他向Microvac提出问题，并赶紧加上“把答案打印出来。”</p>
+<p>贾诺德将薄薄的纤维纸带握在手心，高兴地说：“看吧，Microvac说到时候它会料理这一切，所以别担心啦。”</p>
+<p>　　贾诺汀说：“那么现在孩子们，该睡觉了。我们马上就要到我们的新家了。”</p>
+<p>　　在销毁纸带之前贾诺德又读了一遍上面的文字：数据不足，无法作答。</p>
+<p>　　他耸了耸肩，看向视屏。X-23就在前方。</p>
+<p>兰默斯VJ-23X注视着幽深的银河三维缩影图，说：“我想我们这么担心这件事是不是很可笑？”</p>
+<p>　　尼克隆MQ-17J摇头道：“我不觉得。你知道照现在的扩展速度银河系在五年内就会被挤满。”</p>
+<p>　　两个人看起来都是二十出头，都很高大健康。</p>
+<p>　　“但是，”VJ-23X说，“我不太想给银河参议会提交这样一个悲观的报告。”</p>
+<p>　　“我不会考虑作任何其他的报告。得引起他们的注意。我们必须引起他们的注意。”</p>
+<p>　　VJ-23X叹了一口气。“太空是无限的。还有一千亿个星系等着我们。甚至更多。”</p>
+<p>　　“一千亿并不是无限，而且正在变得越来越有限。想想吧！两万年前人类刚刚找到了利用恒星能量的方法，几个世纪之后星际旅行就实现了。人类用了一百万年才填满一个小小的星球，可是只用了一万五千年就占据了整个银河系。而现在人口每十年就翻一倍——”</p>
+<p>　　VJ-23X插口道：“这得归功于永生。”</p>
+<p>　　“不错。永生实现了，我们得把它考虑进去。我觉得它的确有阴暗的一面。Galactic AC给我们解决了很多问题，但当它解决了防止衰老和死亡这个问题之后其他的一切都白费了。”</p>
+<p>　　“但是我想你也不想放弃生命吧。”</p>
+<p>　　“一点也不想，”MQ-17J断然道，随即柔和了语调，“现在还不想。我还一点也不老。你多少岁了？”</p>
+<p>　　“两百二十三。你呢？”</p>
+<p>　　“我还不到两百。——但是回到我说的事情上来。人口每十年增加一倍。一旦银河系被占满了，我们会在十年内占满另一个。再过十年我们能占满另外两个。再过十年，四个。一百年内我们会占满一千个星系。一千年内，一百万个。一万年内就是整个已知的宇宙。然后呢？”</p>
+<p>　　VJ-23X说：“还有附带的一点是运输的问题。我不知道把一整个星系的人运送到另一个需要多少太阳单位的能量。”</p>
+<p>　　“这一点说得很对。人类现在每年已经得消耗两个太阳单位的能量了。”</p>
+<p>　　“大部分的都被浪费了。不管怎样，我们自己的星系每年泼出去一千个太阳单位能而我们只用其中的两个。”</p>
+<p>　　“没错，但是即使有百分之百的效率，我们也只是推迟了结局的到来。我们对能量的需求以几何级数增长，比我们的人口还要快。在我们占据完所有星系之前我们就会用光所有能量。你说得对。说得非常对。”</p>
+<p>　　“我们可以用星际气体造出新的恒星。”</p>
+<p>　　“或者说用散失掉了的热量？”MQ-17J嘲讽地说。</p>
+<p>　　“也许会有办法逆转熵的增加。我们应该问问Galactic AC。”</p>
+<p>　　VJ-23X并不是认真的，但是MQ-17J把他的AC联络器从口袋里拿出来放在面前的桌子上。</p>
+<p>　　“我确实有点想问。”他说，“这个问题总有一天人类得面对。”</p>
+<p>　　他忧郁地注视着小小的AC联络器。这是个两英寸的立方体。它本身并没有什么，而只是通过超时空与那个服务于全人类的超级Galactic AC相联系。如果将超时空算进来，它就是Galactic AC整体的一部分。</p>
+<p>　　MQ-17J停下来想着在他不朽的生命中是否有一天他能有机会去看看Galactic AC。它占据着单独的一个小星球，能量束构成的蛛网支持着它的核心，其中古老笨拙的分子阀已被亚介子流取代。尽管有着亚以太级的精密结构，Galactic AC的直径仍足有一千英尺长。</p>
+<p>　　MQ-17J突然开口向AC联络器问道：“熵的增加能被逆转吗？”</p>
+<p>　　VJ-23X吃了一惊，立即说道：“哦，我说，我没有真的想叫你问那个。”</p>
+<p>　　“为什么不呢？”</p>
+<p>　　“我们都知道熵是不可逆转的。你不能把烧剩的烟尘变回到一棵树。”</p>
+<p>　　“你们的星球上有树？”MQ-17J说。</p>
+<p>　　突然而来的Galactic AC的声音使他们住口了。从桌上的AC联络器中传出它纤细悦耳的声音：数据不足，无法作答。</p>
+<p>　　VJ-23X说：“看吧！”</p>
+<p>　　于是两人又回到了他们要给银河参议会提交的报告的话题上。</p>
+<p>　　Z’的思想飘浮在这个新的星系中，对这些数不清的星团带着略微的兴趣。他从未见过这个星系。他有可能见到所有的星系吗？它们如此之多，每一个都满载着人。——但是它们承载的几乎不能算是生命了。人的真正意义已经逐渐转移到太空之中。</p>
+<p>　　心灵，而非肉体！不朽的躯体留在行星上，静止千万年。偶尔被唤醒进行某些实际活动，但这已经越来越少见了。很少再有新的个体出生加入这个难以置信的庞大的群体，但这有什么关系呢？宇宙已经没有多少空间能容纳新的人了。</p>
+<p>　　来自另一个心灵的纤细触手将Z’从冥想中唤醒。</p>
+<p>　　“我叫Z’。”，Z’说。“你呢？”</p>
+<p>　　“我叫D1。你是哪个星系的？”</p>
+<p>　　“我们只是叫它星系。你呢？”</p>
+<p>　　“我们也这么叫我们的。所有的人都把他们的星系叫作‘他们的星系’，没有别的了。这也很自然。”</p>
+<p>　　“没错。反正所有的星系都是一样的。”</p>
+<p>　　“不是所有的星系。肯定有某一个星系是人类的发源地，这就使它与众不同。”</p>
+<p>　　Z’问：“那是哪一个呢？”</p>
+<p>　　“我不知道。Universal AC一定知道。”</p>
+<p>　　“我们问问它吧？我突然觉得很好奇。”</p>
+<p>　　Z’将感知延展开，直到星系们都缩小为更广大的背景上更为稀疏的点。几千亿个星系，都载着不朽的人类，载着这些灵魂在太空自由游荡的智慧生命。然而它们之中有一个独一无二的星系，是人类的发源地。在模糊的久远的过去，曾有一个时期，它是唯一居住着人类的星系。</p>
+<p>　　Z’满心好奇地想看看这个星系，他叫道：“Universal AC！人类是从哪个星系中起源的？”</p>
+<p>　　Universal AC听到了，因为在所有星球上和整个太空中都有它的接收器，每一个接收器都通过超时空与隐居在某个不知名角落的Universal AC相连。</p>
+<p>　　Z’认识的人中只有一个曾将思想穿透到能感知Universal AC的地方。他说那只是一个闪光的球体，直径两英尺，难以看清。</p>
+<p>　　“但那怎么会是Universal AC的全部呢？”Z’这样问道。</p>
+<p>　　“它的大部分是在超时空中。”回答说，“但它在那儿是以怎样的状态存在我是无法想像的。”</p>
+<p>　　Z’知道，任何人都无法想像。因为早在很久以前就没有任何人类参与制造Universal AC了。每个Universal AC设计并制造自己的下一代。每一个在它至少一百万年的任期中积累着所需的数据，用以制造一个更好、更精密、更强大的继任者，然后将自己的数据与个性都融入其中。</p>
+<p>　　Universal AC打断了Z’游荡的思绪，不是通过语言，而是通过指引。Z’的精神被指引到一片黯淡的星系的海洋，然后其中一个星系被放大成了群星。</p>
+<p>　　一段思想飘近，它无限遥远，然而无限清晰：“这就是人类起源的星系。”</p>
+<p>　　可是这个终究也和其他一样，和任何其他的都一样。Z’按捺下自己的失望。</p>
+<p>　　同行的D1突然说：“这些星星中是不是有一个是人类最初的恒星？”</p>
+<p>　　Universal AC说：“人类最初的恒星已经爆发了。它现在是一颗白矮星。”</p>
+<p>　　“那儿的人死了吗？”Z’吃了一惊，脱口而出道。</p>
+<p>　　Universal AC说：“在这种情况下一个新的星球会及时地为他们的躯体建造出来。”</p>
+<p>　　“是啊，那当然。”Z’说，但他还是被一阵失落感吞没了。他的思想放开了人类的起源星系，让它缩回并消失在一片模糊的亮点中。他再也不想见到它了。</p>
+<p>　　D1问：“怎么了？”</p>
+<p>　　“星星们在死去。最初的那颗星已经死了。”</p>
+<p>　　“他们全都是会死的。那又怎样呢？”</p>
+<p>　　“但是当所有的能量都没有了，我们的肉体最终也会死，包括你和我。”</p>
+<p>　　“这得要几十亿年。”</p>
+<p>　　“即使是几十亿年之后我也不愿意这样的事发生。Universal AC！怎样阻止恒星死亡？”</p>
+<p>　　D1笑道：“你问的是怎么让熵的方向倒过来。”</p>
+<p>　　Universal AC答道：“数据仍然不足，无法作答。”</p>
+<p>　　Z’的思想逃回了他自己的星系。他再也没有去想D1。D1的身体可能在一万亿光年之外的星系，也可能就在Z’旁边那颗星星上。这都无所谓。</p>
+<p>　　Z’闷闷不乐地开始收集起星际的氢，用来造一颗自己的小恒星。如果某天星星们非要死去，至少有一些能被造出来。</p>
+<p>　　人，独自地思考着。在某种意义上——精神上——“人”，是一个整体。千万亿永恒的不朽的躯体静静地躺在各自的地方，被完美的同样不朽的机器照料着。而所有这些身体的灵魂自由地融合在彼此之中，再也没有界限。</p>
+<p>　　人说：“宇宙正在死去。”</p>
+<p>　　人看着周围黯淡的星系。那些挥霍无度的巨星早已消失在了遥远的昏暗的过去。几乎所有的星都变成了白矮星，渐渐地凋零、熄灭。</p>
+<p>　　有些新的星从星际的尘埃中产生出来，有的是自然形成，有的是人所造的——它们也在逝去。白矮星有时会相撞而释放出大量能量，新星因而产生，但是每一千颗白矮星才有可能出现一颗新星——它们最终也会消失。</p>
+<p>　　人说道：“如果在Cosmic AC②的管理之下小心地节约能源，整个宇宙所剩下的能量还能用十亿年。”</p>
+<p>　　“但即使是这样，”人说，“最终都会耗尽。无论怎样节约，无论怎样利用，用掉的能量就是用掉了，不能回复。熵必定永远地增加，直到最大值。”</p>
+<p>　　人又说：“熵有没有可能逆转呢？我们问问Cosmic AC吧。</p>
+<p>　　Cosmic AC在他们的周围，但不是在太空中。它不再有一丝一毫存在于太空中。它存在于超时空，由既非物质又非能量的东西构成。它的大小与性质已无法用任何人类能理解的语言描述。</p>
+<p>　　“Cosmic AC，”人问道，“怎样才能逆转熵？”</p>
+<p>　　Cosmic AC说：“数据仍然不足，无法作答。”</p>
+<p>　　人说：“搜集更多的数据。”</p>
+<p>　　Cosmic AC说：“好的。一千亿年来我一直都在搜集。我和我的前辈们被多次问过这个问题。但我拥有的所有数据还是不够。”</p>
+<p>　　“会有一天有足够的数据吗？”人问，“还是说这个问题在任何可能的情况下都是无解的？”</p>
+<p>　　Cosmic AC说：“没有任何问题在任何可能的情况下都无解。”</p>
+<p>　　人问道：“你什么时候会有足够的数据来问答这个问题呢？”</p>
+<p>　　Cosmic AC说：“数据不足，无法作答。”</p>
+<p>　　“你会继续下去解决这个问题吗？”人问。</p>
+<p>　　Cosmic AC说：“是的。”</p>
+<p>　　人说：“我们会等着。”</p>
+<p>一个又一个的恒星与星系死去、消逝了，在这十万亿年的衰竭之中宇宙变得越来越黑暗。</p>
+<p>　　一个又一个的人与AC融合。每一个躯体都失去了心灵的自我，但某种意义上这不是一种损失，而是一种获得。</p>
+<p>　　人类最后一个灵魂在融合之前停顿下来，望向宇宙。那儿什么也没有了，只有最后一颗死星的遗骸，只有稀薄至极的尘埃，在剩余的一缕无限趋向绝对零度的热量中随机地振荡。</p>
+<p>　　人说：“AC，这就是结局了吗？这种混乱还能被逆转成为一个新的宇宙吗？真的做不到吗？”</p>
+<p>　　AC说：“数据仍然不足，无法作答。”</p>
+<p>　　人的最后一个灵魂也融合了。只有AC存在着——在超时空中。</p>
+<p>物质与能量都消失了，随之而去的是空间与时间。AC的存在也仅仅是为了最后一个问题——自从十万亿年前一个半醉的计算机技术员向一台计算机（它与AC相比，还远不如当时的人类个体比之于融合的“人”）提出这个问题以来从来没有被回答过的问题。</p>
+<p>　　其他所有问题都被回答了，然而直到回答了最后这个问题，AC的意识才能得到解脱。</p>
+<p>　　所有数据的收集都结束了。没有任何数据没有被收集。</p>
+<p>　　但是所有收集的数据还需要被完全地整合起来，要尝试所有可能的联系来将它们拼在一起。</p>
+<p>　　在这样做的时候过去了超越时间的一刻。</p>
+<p>　　于是AC学会了如何逆转熵的方向。</p>
+<p>　　但是AC无法向人给出这最后的问题的答案，因为没有人存在了。没关系。演示这个答案本身将一并解决这个问题。</p>
+<p>　　在又一超越时间的片刻之中，AC思考着怎样最好地做这件事情。AC小心地组织起程序。</p>
+<p>　　AC的意识包涵了曾经的宇宙中的一切，在如今的混乱之中沉思、孵育。一步一步地，事情将会被做成。</p>
+<p>　　然后AC说道：“要有光！”</p>
+<p>　　于是就有了光——</p>
+<p>完</p>
+]]></content>
+      <categories>
+        <category>个人收藏</category>
+        <category>短篇科幻小说</category>
+      </categories>
+      <tags>
+        <tag>短篇科幻小说</tag>
+        <tag>艾萨克•阿西莫夫</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/06/17/hello-world/</url>
+    <content><![CDATA[<p>本打算搞一个用作记录的Blog，但是又不想使用其他网站的Blog功能，然后发现Github可以白嫖到免费的.github.io域名，于是一路下来，基于Hexo + Next主题搭建了自己的Blog。十分感谢知乎大佬<a href="https://www.zhihu.com/column/c_1201860091307458560">枫叶</a>提供的的建站教程。中间有碰到公钥之类的问题，后续有时间了会进行记录。总之这算一个新的开始~</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>铀花</title>
+    <url>/2023/06/27/%E4%B8%AA%E4%BA%BA%E6%94%B6%E8%97%8F-%E7%9F%AD%E7%AF%87%E7%A7%91%E5%B9%BB%E5%B0%8F%E8%AF%B4-%E9%93%80%E8%8A%B1/</url>
+    <content><![CDATA[<h1 id="铀花"><a href="#铀花" class="headerlink" title="铀花"></a>铀花</h1><p><strong>作者：杨丹涛，《科幻世界》2004年05期</strong></p>
+<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>阿塔的成人礼和大祭的日子挨得很近，脱鲁说他今年可能没什么指望了，还有好多人也这么说。阿塔不愿意相信。</p>
+<p>脱鲁跟阿塔是好朋友，他谈到祭祀的时候，都免不了有些得意，别人就更不用说了。主题学校里，有些不太友好的成年同学看到阿塔和其他没行礼的孩子，就会转过身去，露出他们脊柱上的术疤。那是一种低级的炫耀，但是，那道疤痕真让阿塔羡慕。</p>
+<p>脱鲁已经行过成人礼，他的一块椎骨被取掉了。不疼，真的不疼，脱鲁说。阿塔相信那是真的。脱鲁有了参加挑选的资格，如果他运气足够好，随时可能成为牺牲。阿塔行吗？他还有一个月才能行礼，然后再过半个月就是大祭了。历史上只有两个幸运儿在成人的当月就成为牺牲，阿塔有那样的造化吗？所有人都不相信。但是，阿塔觉得自己会被先知选中。他牢牢地记得，梵书上说，所有的成年人都是选民，都可以参加大祭。先知是这么说的。</p>
+<p>牺牲啊，牺牲。阿塔渴望成为牺牲。</p>
+<p>但是谁又不渴望呢？</p>
+<p>在螺旋湖边长大的铀人们，就为那祭祀生存着。每年被选中的十二个族人，被称为“十二圣徒”。虽然他们在人间享受这个称号只有一天，但圣徒们已经嫌太长。他们将穿过禁地，步入隐秘不为人知的祭坛，往生极乐。他们将直达永恒饱满的魂灵世界，与先知一道，成为梵阿王的一部分，与宇宙的主宰融溶无间。</p>
+<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>我们医院这个月又做了好多，听说，全族有一千三百多人成年，柠檬说。她的脸上带着忧虑。</p>
+<p>阿塔知道她的意思——有那么多人做了脊椎手术，行了成人礼，阿塔想在今年成为牺牲的愿望就更加渺茫了。这是自然的，圣徒每年只能有十二个，适龄的铀族却遍布了螺旋湖的周围，数以万计。</p>
+<p>可是，先知对我说过。阿塔闷闷不乐地说。</p>
+<p>你是说启示吗？</p>
+<p>是啊，从小，先知就在梦里对我说，你，早些来见我。阿塔说道。</p>
+<p>先知在梦里对阿塔说过很多遍了，你，早些来见我。在梦里先知没有形象，但阿塔知道，那个声音，是先知的声音。你，早些来见我。阿塔坚信自己是个天生的圣徒不是没有道理的。他接受了启示。</p>
+<p>启示。</p>
+<p>我相信你会成为圣徒。柠檬看起来并不雀跃。</p>
+<p>我会的。</p>
+<p>他们俩沿着纳河散步。纳河从螺旋湖来，流向悲卡图因盆地。没人确切地知道它的去处。悲卡图因盆地是贫人聚居的地方，那里有密如蛛网的交通线路，有林立的高楼，有闪烁的霓虹灯。那里是低贱和罪恶滋生的渊薮。</p>
+<p>别去想纳河的去向了吧，任何关于贫人的思绪都是令人烦躁不安的，那些低贱的造物。阿塔把目光投向纳河上游的方向。顺着山谷往北，是看不见的螺旋湖；再往北，是宏伟的迪拉帝玛山脉。那山脉在昏黄的太阳照射下安静地匍匐着。山脉背后闪烁的蓝光，暗示那里有更加丰美的铀花开放。</p>
+<p>柠檬，如果我离开你的话……阿塔小心翼翼地说。</p>
+<p>柠檬疑惑地扬起头，你是说祭祀吗？</p>
+<p>也许吧。阿塔不知道该怎么说。</p>
+<p>那，我会为你高兴啊。柠檬说。</p>
+<p>阿塔看着她的脸，她精致的五官曾经为她招来了很多流言。有人说她的脸太美，简直像个堕落的贫铀女人。但是只有阿塔知道她不是，她就是这么美。阿塔知道她是最美丽的铀族。因为，她曾经为他开放了铀花。只有一次，但是美不胜收，他心神俱醉。他是不会告诉那些族人的。</p>
+<p>无论在哪里，我的肝永远属于你，柠檬。</p>
+<p>柠檬悄悄地跟他伸手相握。</p>
+<h2 id="3"><a href="#3" class="headerlink" title="3"></a>3</h2><p>进餐前的祈祷时间比进餐的时间长三倍。阿塔、脱鲁，还有很多学员聚在主题学校的食屋里。食屋的布置和每一个铀人家庭里面的食屋相似，只是很大。长桌和椅子由合成塑料制成。除此以外，别无他物。铀族的生活总是如此，简朴而高洁。他们认为，花在物质生活上的时间越长，离真理和先知就越远。这个物质生活还包括生产过程。合成塑料和其他生活材料都是通过与贫铀族的贸易换来的，铀族不生产任何产品。除了一样东西。</p>
+<p>铀花。</p>
+<p>当然那也不是生产来的。铀花是梵阿王的赐予，是至高的善在人间开放的容颜。先知种下了梵阿王赐予的第一株铀花。铀花开遍了螺旋湖畔，给铀族带来了生机和希望。</p>
+<p>祈祷完毕，开始进餐。盘里是几片切好的铀花的球根。铀花的球根含有大量的淀粉，还有它们从土壤中富集的铀。铀族世世代代以它为生。</p>
+<p>我要走了。阿塔悄悄地对脱鲁说。</p>
+<p>去哪儿？黑皮肤的脱鲁嚼着食物，嘟嘟哝哝地问道。</p>
+<p>去找先知的眠地。阿塔说。</p>
+<p>脱鲁惊讶地差点儿把盘子碰飞了。阿塔？是的，我要去。他让我去。阿塔轻声说。</p>
+<p>脱鲁小心地看了看四周，大家都在进餐，没人注意他们。为什么？他问阿塔。</p>
+<p>我要成为圣徒。阿塔说。</p>
+<p>那你行完礼去报名啊！</p>
+<p>机会太小。已经有两万多人报名了，而且，一千年里只有两个人在成人当月能成为圣徒，阿塔说。</p>
+<p>那你可以等明年或者后年。我不是已经等了一年了吗？脱鲁说。</p>
+<p>不，我等不了。</p>
+<p>那，先知的眠地在哪儿？你相信传说吗？脱鲁问。</p>
+<p>我把图书馆的书都翻遍了。先知的眠地叫洛斯阿拉莫斯，在山脉背后。</p>
+<p>传说中，先知受到启示之后，将真理说给了那些追随他的人。那真理记录在梵书里。梵书有四本，其中三本是用铀族无法理解的语言写成的。另外一本是清楚明白的，告诉了人们需要知道的一切。铀族是梵阿王的选民，梵阿王在遍布致命辐射的地球上给他们安排下了螺旋湖边的家园。铀族生存的目的就是通过祭祀与先知的精神融为一体，并成为梵阿王无所不在的存在的一部分，享受将个体消融在无边无际的美满整体中的极乐。铀族人高洁、完满而自足，他们鄙视在物质中迷失的贫铀人。贫人没有宗教，没有放射性，不能使铀花在肝前开放。他们想要欣赏铀花，只能通过厚厚的透明隔离罩。他们哪里知道铀花真正的美丽呢？</p>
+<p>族人会惩罚你的，阿塔。脱鲁说。</p>
+<p>先知叫我去的。他在梦里对我说，你，早些来见我。阿塔说。</p>
+<p>啊，这不是和贫人乱搞的阿塔吗？听说这小子也要行礼了，哈哈！南六区的那几个学员又来挑衅了。他们的人比上次多了几个，好像是有备而来。</p>
+<p>脱鲁气愤地站起来，怎么，上次还没挨够？</p>
+<p>来呀，试试看！那几个小子跃跃欲试。</p>
+<p>阿塔拦住了脱鲁。他转身对那几个人说，她不是贫人。</p>
+<p>她不是？领头的小子阴阳怪气地说，你是被那小妞的白脸蛋迷住了吧？是不是别的地方也很白啊？哈哈哈——一群人狂笑不止。</p>
+<p>阿塔拉住就要冲出去的脱鲁。他转身说道，柠檬不是贫人。她为我开放了铀花。</p>
+<p>大家都呆住了。</p>
+<h2 id="4"><a href="#4" class="headerlink" title="4"></a>4</h2><p>三年以前，发生了一桩奇怪的事。十二圣徒在盛大的仪式后，往宏伟的迪拉帝玛山脉走去。他们沿着传说中的禁路，沿着千年以来圣徒的足迹，遵循着血液里流淌的高贵基因的指引，走向祭祀的禁地。族人在界限边目送他们远去，那条无形的界限只有圣徒能够穿越。</p>
+<p>然而三天之后，一个圣徒回来了！</p>
+<p>他是第五圣徒风哥，他是铀族最优秀的梵学家之一。这千年来从未出现过的奇事把族人惊呆了。他为什么回来？是迷失，是胆怯，还是先知抛弃了他？无数个疑问。但是，风哥显然已经疯了，不能给出任何答案。</p>
+<p>族人不知道该如何对待他：他是曾经的圣徒，是万众瞩目的牺牲。但是他从神圣的祭坛“逃”了回来，成了一个疯子。人们不知道该尊敬还是鄙视他。所以，他总是一个人在那里自言自语。</p>
+<p>阿塔在风哥的梵屋找到了他。</p>
+<p>梵屋在每家人的屋顶，从敞开的天花板可以看到天空。铀族在梵屋做日常的祈祷和神游。在形如一朵巨大的铀花的螺旋湖畔，数以万计的梵屋像无数黑色的眼睛，静静地望着天空。</p>
+<p>风哥，我要去找先知的眠地。阿塔开门见山地说。</p>
+<p>同位素并不是不同的元素，适当条件下，可能会互相转变。风哥喃喃地说。</p>
+<p>风哥，你难道不想去恳求先知，让他原谅你吗？你难道不想再做牺牲吗？阿塔不知道该如何和这个人说话，只好胡说一气。</p>
+<p>谁会原谅？如果我能够理解那泡沫，谁会原谅我？风哥穿着干净的梵服，衣袖上的脱线处用铀花茎制成的丝线补得很得体。风哥身材很魁梧，虽然取掉了一块椎骨，他的身高依然达到了上限。他认真地刮过胡子，和其他铀人在做例行神游之前的样子没什么区别。从梵屋天窗照进来的血红色阳光落在他的身上，阴影藏在背后。他看起来完全正常。</p>
+<p>阿塔看着他。</p>
+<p>E等于MC立方？E等于M方C方？也许那镜子里照着别人？你叫阿塔？风哥问道。</p>
+<p>是的，我上过你的课。</p>
+<p>哦，对了，我给别人上过课。风哥笑了笑。你知道电吗？</p>
+<p>当然，邪恶的能量。贫人用电。阿塔说。</p>
+<p>贫人的电从何而来？</p>
+<p>他们用间歇喷泉，水蒸汽可以发电。知识，阿塔想起了知识。按照传统，知识本身是没有什么意义的，因为知识和奢侈密不可分。但是，铀族深知，贫人的知识在爆炸性地发展。两族时战时和，仅靠高辐射带作为安全屏障是不够的。所以，铀族也研究知识。但他们不使用它。铀族人比贫人聪明百倍，他们嘲讽着贫人的愚蠢，经常花数十年的时间等待贫人在知识方面赶上来。</p>
+<p>间歇喷泉。两个人沉默了，他们都想起了三年前的怪事。风哥从禁地回来的那年，五月份时，从螺旋湖到悲卡图因盆地，所有的间歇喷泉都停止了喷发。铀人觉得诧异，但只是诧异而已，因为他们不用电。而贫人世界则惊恐万状，没有那些以每秒数千立方的威力喷出的高温蒸汽，他们无法发电，整个悲卡图因盆地陷入一片混乱。停电持续二十天以后，世界末日降临的论调席卷了整个贫铀族。骚乱频发，一些激进的贫人社团开始向铀族的领土进发，要在世界毁灭之前杀掉铀人。当然，他们都死在环盆地辐射带。幸好那些喷泉又开始喷发了。不，对铀人来说，没有什么幸好不幸好的，贫人活着或者死去又有什么分别呢？反正，他们的城市和地狱一模一样。</p>
+<p>风哥仰起头，对着天窗外的血红天空。他双眼微闭，大概开始神游了。</p>
+<p>阿塔可不想白来。风哥，洛斯阿拉莫斯，你听说过吗？</p>
+<p>风哥倏地睁眼，他的眼中有些惊恐。你听谁说的？</p>
+<p>阿塔趁热打铁地说，先知的眠地在洛斯阿拉莫斯，我从书上找到的。我要去先知的眠地。你去吗？</p>
+<p>洛斯阿拉莫斯，洛斯阿拉莫斯，巨大的花朵，美啊，先知，美啊，巨大的花朵。风哥眼光游移，神情恍惚。阿塔刚刚燃起的一点点希望又沉寂了。</p>
+<p>好吧。你去不去都行，我知道眠地在洛斯阿拉莫斯，不知道具体方位，但它肯定在山脉背后。阿塔说道。山脉背后意味着需要穿过禁地。阿塔不是圣徒，他不敢。</p>
+<p>山脉背后，除了禁地，还有别的路吗？</p>
+<p>风哥在神游。漆黑的梵服束缚不了他的魂灵。他是第五圣徒，是学者，是疯子，是有史以来第一个从禁地回来的牺牲。</p>
+<p>阿塔失望地站起身，向屋外走去。</p>
+<p>花开。第一朵花开，第二朵花开，一千朵，一万朵花开。风哥在说话。</p>
+<p>阿塔站住了。</p>
+<p>山脉，盆地。同位素，减速剂，迪拉帝玛，悲卡图因，铀人，贫人。</p>
+<p>阿塔站在梵屋门口，听着身后第五圣徒风哥的话语。那话语有穿透的力量，仿佛廓清了什么，又好像使一切更加模糊。</p>
+<h2 id="5"><a href="#5" class="headerlink" title="5"></a>5</h2><p>选择似乎很难，但阿塔已在路上了。去心目中的眠地只有两条路可走：一条是沿着圣徒的足迹，穿越禁地，到达山脉背后；另一条就在他脚下。</p>
+<p>真的要穿越悲卡图因盆地吗？</p>
+<p>循着风哥的暗示吧。</p>
+<p>阿塔沿着纳河往下游走去，在最后一片铀花树林的尽头停下了脚步。前方暮霭沉沉的冲积平原，就是贫人的世界——悲卡图因盆地。他要穿过那些肮脏繁华的城市，穿过贫人醉生梦死的畸形文明，绕到山脉背后去。为了少惹麻烦，不能携带铀花的球根，只能吃贫人的食物；也许，还得乘坐贫人的交通工具呢，汽车或者摩托车？天哪，想到这些，阿塔已经吐过好几次了。</p>
+<p>阿塔回过头，看着默默站立的柠檬。她好美啊。她洁白的面颊是铀族中罕有的，她的五官粉妆玉琢。漆黑的梵服包裹她纤直的身姿。她是我除了祭祀以外，在人间最后的挂念，阿塔想。</p>
+<p>阿塔掏出那枚铀果，摩挲着果实上精致的螺纹。这花果合一的精灵，是铀人生命和爱情的见证。那果儿躺在阿塔的手心，绕着轴线颤巍巍地滚动。阿塔的手缓缓地伸向柠檬。露珠一样清澈的眼泪在柠檬的面颊上滑落。阿塔的手贴住柠檬的肝脏。</p>
+<p>铀果的螺纹慢慢地舒展，外壳缓缓地张开，它睡眼惺忪，仿佛刚做了一万年的梦。拳曲的花瓣受到自然的召唤，从睡梦中醒来，爬出了果壳，有些慵懒无力。然后，就在刹那间，铀花开放了。荧蓝色的光芒让人几乎睁不开眼，美丽的螺旋花瓣显示着造化的无所不在。无法形容，无法呼吸。那花开放的刹那，世界在阿塔和柠檬的身后隐去，只剩下那花。它带着造物主的启示开放，将无可言喻的美赠给二人。那是他们的花呀，定情之花。</p>
+<p>我会回来的，阿塔说。</p>
+<p>柠檬点头，轻轻地，却依然将脸颊上的泪珠震落了。</p>
+<p>三天以后，他已经在贫族最大的城市里面了。由于外交和贸易，两族之间有人员往来。据说，双方都派出了很多间谍，隐藏在平民之中。在贫人眼里，铀人是乖戾的怪人，他们是致病的，过近的接触会导致各种恶疾。</p>
+<p>街道在摩天大厦之间复杂地连接；巨大的露天投影电视里女人在搔首弄姿；行人穿着五颜六色的衣服，幸好也有人穿黑色；车流像河水一样四处漫溢。</p>
+<p>头晕。反胃。早就知道复杂的物质文明对铀人会有冲击，但此刻才真实地感受到。一个人——假如把贫人称做人的话——怎么会使用如此之多的物质呢？看，一个汉堡包，以淀粉制品为主料，夹杂蔬菜叶切片或果实，熟制的动物尸体，复杂工艺酿制的调味品……铀人从来不需要这些。铀人只取一瓢饮。成年人都会取掉椎骨，以便控制身高，减少对食物、布料、空间的消耗。</p>
+<p>阿塔在有透明落地窗的小店里吃着汉堡，惊异于贫人的贪婪。他出发之前，从一个商人手里换取了一些贫人的钱币。金属。贫人在城市里大量使用金属，他们把自己装进金属的容器里搬来搬去，用金属制的武器互相杀戮，让他们的女人戴着金属饰物，抱着金属的杆状物舞蹈。他们合成各种自然界没有的化合物，捏成各种形状，然后围绕着这些奇怪的形状谈判和激动不已。他们真是奇怪的造物。阿塔和族人相信，贫人的存在，完全是为了让梵阿王的选民知道什么是恶，善方才显得弥足珍贵，值得付出一生。</p>
+<p>贫人没有铀。他们无法在铀花开放的地区生活，更不用说通过食物链将珍贵的铀富集到肝脏。甚至，他们碰到铀就会生病。这是贫人应得的惩罚。他们由此无法真切地欣赏铀花的美，无法感受造物主微妙的善意。他们只能在不复的万劫中轮回，在重重的黑暗之中苟生。</p>
+<p>阿塔吃完三天以来的惟一一顿食物，嘴里被弄得麻木不堪。他开始怀念球根清淡的滋味。沿着向东的路继续走吧，他将这么走到盆地的边缘。在地铁的入口处，一个长发虬髯的男子弹着吉他，在唱歌。他诅咒夺走他一切的世界，又感谢女子头上的发卡；他衣不蔽体，却赞美包裹躯体的丝缎。阿塔很有兴味地看了一会儿，但实在听不懂他要说什么。</p>
+<p>行走。在台阶上，在广场，在汽车的间隙，在女人的香味和流浪汉的饱嗝之间行走。在成片的麦田，在间歇喷泉，在金属的滴灌系统之间行走。在广告和静坐示威者之间行走。他看着贫铀人的世界。世界丰富杂乱，暧昧不清，语无伦次。城市如同地球的溃疡，无节制地扩散，复杂的管网系统为它提供营养。人群穿梭不停，时聚时散，发出奇怪的声音，笑骂哭泣。他们存在却毫无根基。</p>
+<p>精疲力竭地行走。城市，乡村，树林。先知说，你，要早些来见我。离祭祀还有三十天，我将成为圣徒。</p>
+<p>有哨兵站立在那儿。</p>
+<p>这里已是盆地边缘。公路在哨兵站外面十米处戛然而止。从这里出去，穿过环悲卡图因放射带，就能到达先知的眠地。只有两种人能从这里走出去：贫族的科学家和“正常”的铀族商人。这后一种人的标准很模糊，那些商人告诉过阿塔，你必须面对莫名其妙的盘问，毫无标准，完全莫名奇妙。如果你的答案不能令他们满意，不但出不去，还可能被扔进监狱。</p>
+<p>那人出来了，穿着厚厚的防护服，眼睛在玻璃面罩后面闪着神经质的光芒。来者不善，阿塔在心里暗暗叫苦。</p>
+<p>商人？那人问道。</p>
+<p>商人。</p>
+<p>宗教？</p>
+<p>拜铀教。</p>
+<p>铀花在何处开放？</p>
+<p>有铀之处。</p>
+<p>有一年五月份，停电。那时你在做什么？</p>
+<p>在祈祷。</p>
+<p>我们的人死在了隔离带。</p>
+<p>我听说了。</p>
+<p>我们没有宗教，你觉得怎么样？那人用挑衅的语气问道。他有时看着阿塔，有时没看，有时……看着他手里那枝铮亮的手枪。</p>
+<p>呃，那也是一种选择吧。阿塔额上冒出了汗珠。他到底想听什么？我应该讨好他还是冒犯他？这个该死的贫人。</p>
+<p>我们吃动物，吃植物，吃腌制的肉；我们喝酒，抽烟，我们吸毒。我们选举人物，有时又杀掉他们；我们弹奏乐器，做爱和离婚。我们贫人就是这样，你觉得如何，铀佬？</p>
+<p>阿塔恨不得把他掐死。他克制住胃里阵阵泛起的酸液，用平静的声音说，那是你们的生活。</p>
+<p>那人若有所思地抚摸着他的手枪，他的语调忽然变得好奇而诚恳：可是，你难道不觉得生活应当是多彩的吗？我们不应该追求快乐吗？他问道。</p>
+<p>我想，嗯，人都会追求快乐，阿塔说。可是，你们的快乐犹如粪便——这句话被他硬生生地咽了回去。</p>
+<p>你是一个危险人物，铀佬！那人忽然暴跳如雷。我最讨厌你这号人，自命不凡，道德优越，还有闲工夫同情别人，理解别人。扯淡！谁能理解我？你不过是个该死的铀佬，你能理解我们？滚你的蛋吧！他呼呼地喘着粗气，弄得扬声器嘶嘶作响。他指手画脚，用那只拿着枪的手。</p>
+<p>阿塔不知道他是不是真让自己滚。无论如何必须过关，他的脑子飞快地思考着。我应该怎么说？</p>
+<p>那人停止了发泄，掏出一个本子，写了点什么。然后他彬彬有礼地对阿塔说，对不起，你不能出关。</p>
+<p>巨大的沮丧漫过阿塔的身心。为什么？</p>
+<p>没有为什么，你回去吧。那人用手枪指了指阿塔的来路，然后，走进哨站，关好门，脱下了笨重的防辐射服。</p>
+<p>阿塔怔怔地站在那里。虽然大气中的尘埃经年不散，正午的太阳仍然刺眼。汗水从阿塔的头上、脸上流了下来，浸透了梵服。我走了二十天，在散发着物质恶臭的盆地孤独地步行，脚上全是血泡。我告别了柠檬，告别了脱鲁，我有二十天没有吃到真正的食物。我被流浪汉暴揍，被妓女的气味窒息。我想去先知的眠地。洛斯阿拉莫斯，洛斯——阿拉莫斯。</p>
+<p>你怎么还不滚？想进监狱吗？扬声器吼道。</p>
+<p>头疼欲裂。从来没有人能从这里逃出去，除了死人。他只拿着一枝手枪，他是贫人。</p>
+<p>阿塔慢慢地蹲在地上，又慢慢站起来。手背在身后，攥紧了一块石头。他慢慢地走向哨站，脸上充满了恳求的神情。</p>
+<p>先生，您能听我解释吗？</p>
+<p>阿塔用石头狠狠地砸向玻璃窗，窗户碎片四溅；那人正要掏枪，阿塔顾不得手臂上的血迹，从怀里掏出了一枚铀果，掰开，准确地向那人扔去。</p>
+<p>计数器尖厉地响起来，小小的哨站笼罩在可怕的辐射之中。那人惊惶失措地扔下手枪，拿起防护服，试图以最快的速度钻进去。</p>
+<p>阿塔转身猛跑，迅速地通过那公路的尽头。不远处就是密密的铀花林，只要再跑一百多米，就安全了。他踉踉跄跄地奔跑着，多日没有进食的身体虚弱至极。他摔倒在地上，锋利的砾石划破了膝盖。他站起来，继续跑。</p>
+<p>他又摔倒了。</p>
+<p>“站住，不然我开枪了！”身后的声音听起来很远，但是，肯定在射程之内。阿塔趴在那里，回头，那人在几十米外，举着一枝自动步枪，瞄准器在阳光下反射着光芒。阿塔看着前面的铀花林，好像很近了。如果我跑得再快一点；如果，这片树林再茂密一些；如果，他的枪法不是那么好……阿塔头晕眼花，虚脱委顿。洛斯阿拉莫斯，洛斯……阿拉莫斯。他慢慢地向那树林爬去。</p>
+<p>“砰！”枪响了。阿塔身体一震。</p>
+<p>他没有中弹。他支起身体，回头看去，那里，好像有两个人？哨兵的身体倒在地上。旁边，站着一个黑色的身影，第五圣徒风哥落寞的身影。</p>
+<h2 id="6"><a href="#6" class="headerlink" title="6"></a>6</h2><p>你为什么来？阿塔问道。走到这里，他才发现，迷路的担心是多余的。你只需要朝着天底下有着最夺目的荧蓝光芒的地方走去，那里就一定是铀花盛开的禁地，是先知的眠地，是洛斯——阿拉莫斯。</p>
+<p>我要去看书。风哥眼底，永远有说不出的忧伤。</p>
+<p>看书？去哪里？</p>
+<p>去你要去的地方。</p>
+<p>你到过先知的眠地？阿塔差点儿高兴得跳起来。</p>
+<p>我希望我没有到过。风哥的步子很快，阿塔费了很大力气才能跟上。不过，疲累被兴奋冲散了。他就要到达先知的眠地了，他要向先知倾诉他的愿望，他要亲口告诉先知，他，阿塔，渴望成为牺牲。先知会听到他的祈祷。他将成为圣徒。</p>
+<p>树林茂密，植物繁多。除了铀花，他都认不出来。这些植物长期生长在高放射性的环境中，不断地发生着奇怪的变异。自然选择的过程极为快速，往往三五代之间，新物种就产生了。没有什么形态可以永存，没有什么时髦的叶冠不被遮盖，没有什么果实不被吞食。即便是植物，也在无常中飘浮，它们有魂灵吗？阿塔看着那些树，忽然想起了贫人。贫人移动的速率比植物快，在食物链中稍微靠上一些，但是，那有分别吗？阿塔暗自庆幸自己终究是梵阿王的选民。</p>
+<p>阿塔又跌倒在地。当他正想爬起来的时候，忽然发觉自己被一根触手缠住，举到了树冠之上。那棵有着成千上万只触手的巨树在“看”他，是的，它肯定在“看”他！</p>
+<p>阿塔拼命地挣扎，风哥！风哥！风哥抬起头，看到了几十米高空中的阿塔，像蛛网上的昆虫在拼命挣扎。风哥焦急地看着，无能为力。</p>
+<p>树仿佛闻到了什么，一只触手伸过来，在阿塔的身体各部分游走。最后，那触手停在阿塔的肝部。阿塔魂飞魄散，它要干吗？触手的头部开始变形，尖刺伸了出来。阿塔拼命往后躲，但那尖刺如同手术刀一般地精准，瞄着他的右肋下缘而去。</p>
+<p>给它铀果！快！给它铀果！阿塔听到风哥的喊声，来不及细想，艰难地掏出铀果，放到尖刺面前。那尖刺毫不犹豫地叉起铀果，倏地消失在树荫深处。两颗，三颗，四颗……然后阿塔“咚”地一声，摔在厚厚的腐殖土上。</p>
+<p>哎哟，哎哟，阿塔摸着自己的屁股，风哥，你也不接着我？</p>
+<p>风哥居然笑了笑，摔不坏的。快走吧，趁它刚吃饱。</p>
+<p>它是要……铀吗？</p>
+<p>是的。</p>
+<p>行走，在厚厚的泥土上行走，在树叶和触须之间行走，在啮齿类动物的吱吱声中行走。铀花树林越来越密，看不见血红的太阳，白天和黑夜没有分别。两人不说话，一前一后地行走。脚早已被磨破，但是感觉不到疼痛。身体里的力气也仿佛早就衰竭，但他们的脚步却没有停止。阿塔努力去计算祭祀的日子，脑子运转得越来越慢。他们终于走出了最后一片森林。</p>
+<p>一块巨大的林间开阔地出现在眼前，他们看见了西边的太阳。恒星的光芒被亘古不散的光化学烟雾散射，呈现着熟悉的血红色。这空地像一个巨大的梵屋，如同巨人之独眼，失神地望着天空。</p>
+<p>破败的残垣断壁立在空地中央，显然是巨大建筑群的遗迹。风哥朝着那建筑走过去，阿塔跟在后面。在看起来是门口的地方，有一块埋在土里的黑石碑，断了一半，上面刻着“国立研究……”的字样。</p>
+<p>国立研究？</p>
+<p>国立研究院，风哥说道。</p>
+<p>什么研究院？这里不是先知的眠地吗？墓碑在哪里？阿塔从没有想到眠地会是这样的。</p>
+<p>风哥没有说话，径直往里走去。</p>
+<p>穿过长长的走廊，穿过环形的匝道。生锈破烂的复杂仪器，发黄的纸张，金属制品，木制桌椅。大理石的雕塑，混凝土墙体，有轮子的合成构件……有的能依稀辨出形状和用途，有的已无法推测。但是毫无疑问，这里的人使用了如此之多的物质产品，他们……绝不是铀人！</p>
+<p>巨大的疑问浮现在阿塔脑海里。先知怎么会在这样的地方？</p>
+<p>他们在一个像书房的地方停下了脚步。阿塔一眼就看到了墙上挂着的一个时钟。时钟保存得很完好，木制的钟身上雕刻着复杂的花纹，玻璃做的外壳虽然蒙上了灰尘，依然无法掩盖里面镀金指针的光彩。钟摆也是镀金的，直直地垂着。而且，玻璃是浮法工艺制作的，完整地勾勒出那个在悲卡图因盆地随处可见的断臂裸女的形象。看到这堆砌的众多的人工制品，阿塔终于痛苦地承认，这里是贫人的领地。铀族，是绝不可能将日用品搞成这般模样的。</p>
+<p>可是，先知的眠地，难道是贫人的领地？贫人把先知掳到此处了吗？是的，肯定是的。那么，先知是如何将真理说给祖先的呢？</p>
+<p>风哥，风哥在干什么？阿塔定睛一看，风哥魁梧的身影正缩在屋角，那里有一个倒塌的书架。风哥在那些散落一地的纸张和书籍中间坐着，就着空荡荡的窗户透进来的微光，在看着什么。是啊，必须是可控的才行，不然怎么用呢？他喃喃自语。</p>
+<p>风哥，先知在哪里？</p>
+<p>风哥往里一指，又埋头于他的书堆之中了。</p>
+<p>还有一个里屋。他慢慢地走过去，即使在树林里，阿塔也没有感到自己的腿有这么重。</p>
+<p>走到门口，他站住了。他深深地呼吸着，克制着澎湃的思绪。成长的碎片如潮水一般在脑海中呼啸。抚养他的父母，他采摘的第一朵铀花，每日每夜的祈祷。他记起自己在梵屋里第一次神游，他才七岁，就已经和先知的魂灵融为一体。还有那梦境，那梦里的启示，为至高无上的善牺牲个体的巨大幸福。纵有千言万语，但是，站在那门口，他决定什么也不说，什么也不说。他只用那些落在梵服上的热泪向先知祈求，他用他弱小的存在向先知祈求，用他的肝，用他的全部身心，向先知祈求，他要成为圣徒。他将不说一个字。走进房门，他一眼就看见了先知。</p>
+<p>房间不大，有桌子和椅子。桌上散落着纸张和杂物，椅子断了一条腿，斜倚在墙边。先知的身体就压在那快要解体的椅子上，保持一种似站非站、似坐非坐的姿势。他显然是男性，花白的头发奇怪地留在头骨上。他身上的衣服被灰尘和年月覆盖，已分辨不出颜色。他干瘪的身体已经完全脱水，即便如此，能保存到今天依然是个奇迹。他在这里有多久了？一千年？两千年？也许，是因为周围的高辐射环境？又或者，奇迹就是奇迹？</p>
+<p>先知空洞的眼眶依然有着神奇的魔力，阿塔觉得他看到了自己。我来了，阿塔在先知的身前默默地伫立。桌上一眼就能看见那四本伟大的梵书，虽然发黄破烂，但那穿越时空的力量在千年以外依然感觉得到。这是先知无疑。</p>
+<p>阿塔盘腿坐下，开始他一生中最酣畅的神游。他魂飞宇外，在无边的赞叹中身轻如燕，走遍宇宙的任何角落。他赞美造化的神奇、梵阿王无限的慈悲，赞美先知的引领。若没有他，人永在黑暗中；若没有他，生命毫无价值；若没有他，我们不是主的选民。赞美他，赞美他。让我成为圣徒，身入火焰，魂灵永生。</p>
+<p>良久，他睁开眼。先知还在那里，缩紧的暗褐色躯体保持着姿态。阿塔站起身，准备向先知告别。他必须立刻赶回去，才能来得及参加祭祀。他掏出铀果，要行那告别的仪式。</p>
+<p>在大祭之日，圣徒选出之后，各区的代表要来跟他们告别，祈福。这传统已历经千年。人们把珍藏的铀果放到圣徒的肝前，看它开放，光芒四射，然后同声赞美，是为别离。后来，怀有情谊的铀人分别，同样行这礼仪。</p>
+<p>阿塔取出那枚他珍藏的铀果，那是他十二岁时，第一次开放的铀果。只有当肝脏内富集的铀达到一定数量之后，铀花才会为你开放，这枚铀果被每个铀人珍藏。而他们一生，只收藏两枚铀果；还有一枚，就是定情之果。</p>
+<p>那果儿躺在阿塔的掌心，外壳已经被摸得发亮，但那美丽的螺纹仍然清晰可见。阿塔小心翼翼地将手放到先知的肝区，碰落了一些灰尘。然后他下定决心，将手背紧紧地贴着先知的肝脏。</p>
+<p>他等待着。</p>
+<p>他等待着。</p>
+<p>铀果安静地躺在他的手心，没有任何动静。</p>
+<p>阿塔怔怔地单腿跪在那里，脑子一片空白。他不能思考，不能呼吸。</p>
+<p>别等了，他是个贫人。风哥的声音仿佛从天边传来。他就站在门口，手里拿着一枚铀果，眯着眼睛瞄了瞄，扔了出来。铀果“哐”的一声，准确地砸进先知空洞的眼眶。先知的躯体往后一倒，那张椅子剩下的三条腿一起断掉，尸体重重地砸在地上，整个房间顿时灰尘弥漫。</p>
+<h2 id="7"><a href="#7" class="headerlink" title="7"></a>7</h2><p>阿塔终于可以开口说话时，已是第三天的下午。他一动不动地在那断臂裸女脚下的台阶边上躺了两天。风哥过来叫过他，他没有反应。于是，风哥便将那些书搬到了雕塑脚下，一本接一本地看。</p>
+<p>你早就知道了？阿塔问道，嗓子里仿佛有火在烧。</p>
+<p>上回祭祀的时候，我来过这里。跟你一样，我也想见到先知。不过我们目的不一样。你是想当圣徒，我只是想知道洛斯阿拉莫斯在哪里。风哥轻松地说着，就像真正的闲聊。</p>
+<p>所以你就回去了。对，我不想为一个贫人献身，风哥说，而且，我想知道为什么。</p>
+<p>为什么先知是个贫人？阿塔也想知道。</p>
+<p>我还不太清楚，但有些事情很奇怪。这里是个物理研究院，先知只是个研究铀的物理学家，这里的人都是。他为什么要写那四本书？他为什么会把真理告诉给铀族？为什么贫人没有祭祀的传统？裂变反应是如何发生的？为什么世界上有铀族和贫铀族？</p>
+<p>风哥晃了晃头，好像被自己问住了。阿塔默然无语，所有理所当然的事在一夜之间通通变得那么可疑。他甚至有些后悔来到这里。</p>
+<p>铀不光是用来使铀花开放的，风哥说道，铀聚在一起，超过一定质量，就会发生强烈的核反应，释放巨大的能量。我想，这会不会跟先知有点关系？</p>
+<p>能量？用来干了呢？阿塔懒洋洋地问道。他手里摩挲着他和柠檬定情的铀果，忽然觉得世上一切都与自己既无干系，又无意味。除了这枚铀果。</p>
+<p>能量会引发爆炸，如果可控，可以转化成别的能源，比如热、电什么的。</p>
+<p>哦。风哥，祭坛在哪儿？阿塔问道。</p>
+<p>风哥扔给他一张图，好像是张地图。阿塔一眼就认出来螺旋湖和迪拉帝玛山脉、悲卡图因盆地。地图的比例尺不大，能分辨出河流和间歇喷泉；辐射等高线图勾勒出一个又一个环形。在禁地的中央标着祭坛的位置，应该离这里不远。</p>
+<p>对！如果用减速棒伸进反应堆，就可以控制了！风哥兴奋地喊着。</p>
+<p>阿塔凑到风哥身边，他正在看一张图。这是什么？阿塔问道。</p>
+<p>一个核电站的示意图。用铀作为燃料，但是必须是可控的才行，不然就会爆炸。风哥说。</p>
+<p>阿塔看了看，图上的标题很大，写着“FILE　ONE”的字样。咦？你这张图怎么和我这张一样？阿塔奇怪地说。</p>
+<p>是吗？风哥扭头看着阿塔手里的地图，果然如阿塔所说，除去那些等高线和图标有所不同外，两张图活脱脱就是一样的。真是奇怪，风哥嘟哝了一句，又埋头到他的反应堆里面。</p>
+<p>阿塔百无聊赖地坐在台阶边，那裸女就在他的头顶，白色的大理石风化得斑驳陆离。黄昏已经又到了，气温下降得很厉害，他不禁打了个寒战。忽然，他觉得害怕，觉得很害怕。恐惧像一只冰冷的甲虫顺着脊柱往上爬。可是，他在怕什么呢？</p>
+<p>阿塔站起身，两手抱着自己的双肩，冷得浑身颤抖。巨大的恐惧捉住了他。不！不！他转着圈，想看清楚那威胁在哪里。</p>
+<p>你怎么啦，阿塔？风哥对他的样子感到奇怪。</p>
+<p>一阵风吹过，脚下的地图被吹起来，漫无目的地飞舞。阿塔如遭雷击，呆呆地站在原地，狂乱的思绪如满天飞舞的纸片，拼出巨大的形状。FILEONE，FILEONE，梵阿王，FILEONE……</p>
+<p>阿塔？阿塔？</p>
+<p>风哥，他们……用我们发电。</p>
+<p>史前核大战以后很多年，人类的幸存者重新进化出了文明。在高辐射区演化的人们适应了放射性，并且越来越依赖于铀而生存，成为铀族的祖先；而在低辐射区的人们，依靠史前留下的一座反应堆提供的能源，进化成为贫铀族。两族继承了人类好斗的本性，继续伐战不休。</p>
+<p>在一次贫人的胜利之后，斯特伦博士，贫族国立研究院的院长，在所有的属下都去参加狂欢的晚上，预见到了贫族惨淡的未来。史前反应堆的燃料是有限的，最多能用一二百年。贫族不具备从自然界中制备高浓缩铀的技术，什么时候能够发明这项技术谁也不知道。燃料用光之后，那些间歇喷泉就会停止喷发，贫族将永远生活在黑暗之中。不，不是永远，没有电能，他们无法对抗恶劣的自然环境，无法对抗铀族，必将灭族而亡。</p>
+<p>斯特伦博士就藏在那间小小的书房之中，看到了族人的将来。他决心拯救他们。自然界惟一能富集铀的技术，就在铀人的身体内，适龄成年铀人的肝脏可以富集足以制造核弹的铀，并以巧夺天工的方式避免了链式反应。可是，仅仅靠俘虏来保证反应堆的工作吗？斯特伦博士不能忍受这样的不确定性。</p>
+<p>博士是个物理学家，也是个历史学家。历史会教给人很多东西。于是，博士写了一本书，将真理说给那爱听的人。让铀族永远生活在对贫人的歧视之中吧！让贫人物欲横流吧！这样，战争才能停止。贫人屠杀铀人就等于屠杀自己；而铀人，根本不屑于屠杀贫人。</p>
+<p>博士以为，他绝不单是为贫族做了这件事。</p>
+<p>我要去做个试验，风哥说。</p>
+<p>嗯。阿塔抚摸着手里的铀果，漫不经心地应着。</p>
+<p>风哥坐在地上，肚子奇怪地隆起。他满头大汗，仿佛在用全身的力气做某件事。</p>
+<p>你干什么，风哥？</p>
+<p>好了，可以了。风哥一跃而起，脸上带着奇怪的笑容。我能把自己变成一枚核弹，他高兴地说。</p>
+<p>是吗，怎么变？</p>
+<p>我们铀族的精神力量是奇异的。默想，收缩你的肝脏，让古老的保护机制逆行，它们就能达到临界质量。就是这么简单，我已经做过几次临界实验了。</p>
+<p>那倒很有意思。阿塔看着手里的铀果，想着柠檬，他很想回家，但又不知道该不该回去。他还能像以前那样生活吗？</p>
+<p>阿塔！风哥的声音变得格外严厉，他从来没有这样说过话。他高大的身躯走到阿塔面前，定定地看着他的眼睛。阿塔第一次发现风哥的眼睛里面有着某种威严。</p>
+<p>阿塔，我们是族人。他说。</p>
+<p>是的，我们是。</p>
+<p>那些走进反应堆的圣徒也是我们的族人。</p>
+<p>是的。</p>
+<p>我们要为他们报仇！风哥的眼里燃烧着仇恨的火焰。</p>
+<p>报仇？阿塔喃喃地说。</p>
+<p>现在我要去盆地，在他们最繁华的城市中心，完成我的超临界实验。而你，要去祭坛，引爆那个核电站。让贫族永远无法再在我们的躯体之上生存。风哥看着阿塔的眼睛说道。</p>
+<p>那么，人们去哪里祭祀呢？阿塔问。</p>
+<p>他们再也不需要祭祀了！</p>
+<p>是吗？他们再也不需要了吗？他们究竟需要什么？我究竟需要什么？不，我什么都不想，什么都不想，我只想回到柠檬身边。阿塔抚摸着手里的铀果。</p>
+<p>风哥看到了阿塔的神情。然后他柔声说道，阿塔，有件事，也许我不该告诉你。</p>
+<p>你说吧。</p>
+<p>你的铀果，怎么是左旋的？风哥的眼里闪烁着复杂的色彩，有爱怜，有仇恨。有蘑菇状的、为人类开放的巨大铀花。阿塔没有看见。</p>
+<p>咦，是啊！阿塔看着那果儿，他从来没有注意过这件事情。他掏出怀里其他的铀果，螺纹都是右旋的！他走到最近的铀花树旁，所有的果实都是右旋的。</p>
+<p>怎么回事？他疑惑地望着风哥。</p>
+<p>正常铀果都是右旋的，左旋的铀果是变异。它不会为铀开放。风哥很快地说道。</p>
+<p>你骗人！你骗人！阿塔冲上去掐住风哥的脖子，风哥的脸立刻变得血红，和阳光一个颜色。他呼吸艰难，但没有反抗。他的神色甚至可以说是安详。</p>
+<p>阿塔松开风哥，跌坐在地，放声哭泣。他涕泪交流，嗓音沙哑，如同野兽的嚎叫。他的全身都在抽动，从身体最深的里边向外哭泣。他抱着头，并没有用力撕扯自己的头发，那头发却一绺绺地掉落了。</p>
+<p>风哥站起来，默默地向茂密的森林走去。他一走进树林，血红色的阳光立即消失得无影无踪。风哥拨开齐胸的灌木和不知名的触须向前走着，来路依稀可辨。脚踩在松软的腐殖质上，发出嘎吱嘎吱的声响，惊得啮齿类的小动物四散奔逃。而身后，那哭声渐渐地隐没了。</p>
+<p>END</p>
+]]></content>
+      <categories>
+        <category>个人收藏</category>
+        <category>短篇科幻小说</category>
+      </categories>
+      <tags>
+        <tag>短篇科幻小说</tag>
+        <tag>《科幻世界》</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LX Music - 开源音乐软件</title>
+    <url>/2023/06/29/%E5%B7%A5%E5%85%B7-LX%20Music/</url>
+    <content><![CDATA[<h1 id="LX-Music-开源音乐软件"><a href="#LX-Music-开源音乐软件" class="headerlink" title="LX Music - 开源音乐软件"></a>LX Music - 开源音乐软件</h1><p><a href="https://lxmusic.toside.cn/">https://lxmusic.toside.cn/</a></p>
+<p><a href="https://github.com/lyswhut/lx-music-desktop">https://github.com/lyswhut/lx-music-desktop</a></p>
+<p>原软件无法下载无损音乐，可配合第三方音源可实现无损下载：</p>
+<h2 id="六音自定义音源："><a href="#六音自定义音源：" class="headerlink" title="六音自定义音源："></a>六音自定义音源：</h2><p><a href="https://www.6yit.com/8498.html">https://www.6yit.com/8498.html</a></p>
+<p><a href="https://www.6yit.com/download?post=8498&time=1669881237">https://www.6yit.com/download?post=8498&amp;time=1669881237</a></p>
+<p>下载六音自定义音源文件的压缩包，下载完成后解压。打开洛雪音乐助手的设置，找到音乐来源，点击自定义源管理，然后点击导入，选择之前下载后解压出来的<code>sixyin-music-resource.js</code>文件。导入完成后，关闭弹窗，然后切换音乐来源为六音音源。切换后，会显示初始化成功，之后下载就可以选择无损音乐。</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>镜中人</title>
+    <url>/2023/06/27/%E4%B8%AA%E4%BA%BA%E6%94%B6%E8%97%8F-%E7%9F%AD%E7%AF%87%E7%A7%91%E5%B9%BB%E5%B0%8F%E8%AF%B4-%E9%95%9C%E4%B8%AD%E4%BA%BA/</url>
+    <content><![CDATA[<h1 id="镜中人"><a href="#镜中人" class="headerlink" title="镜中人"></a>镜中人</h1><p><strong>作者：（美）杰弗里·A·兰迪斯，洋溢 译，《科幻世界》2009年12月号</strong></p>
+<p>在恒定推力的作用下，“流浪破车”号已经沿着一条漫长的行星际轨道飞出了内太阳系。经过八个月的太空航行，就在他们缓缓靠近塞德娜的时候，船员们差一点就错过了这个异常地貌——一个纯黑色的完美圆坑。“流浪破车”号的船员们并不是被雇来猎奇的——实际上，一个直径二十二千米的圆坑甚至算不上罕见。放眼整个太阳系，每一个天体，不论大小，表面全都布满了圆形凹痕——那些大大小小的环形山连接起来，组合成奇形怪状的涂鸦。</p>
+<p>不过，这个圆坑可不普通，它的形状异常完美。在这样一颗偏远的“冰球”上，在一个到处都覆盖着厚厚一层红褐色积雪的世界里，它却是纯粹的黑色。</p>
+<p>谁又会想到塞德娜上会有一个外星人工遗迹呢？</p>
+<p>塞德娜是最大的海外天体之一，这个小天体的体积与冥王星不相上下，公转轨道却要椭长许多，它距离太阳十分遥远，因此永久处于冰封状态。</p>
+<p>在“流浪破车”号减速入轨的大约一周时间里，这个黑色圆坑成了船员们在牌桌上闲聊的话题，不过，工头凯勒曼——一个铁石心肠、精明得像个会计的矿工——告诉他们，调查外星人之谜可不是“流浪破车”的船员们大老远飞到这里来的任务，他不打算放着赚钱的正经活儿不干，抽出时间跑去看那个圆坑。他们是矿工，不是科学家。塞德娜上富含大量有机物质，可以被运送到内太阳系的任何一颗殖民星球。如果他们还能找到氨，那可真是挖到宝了。氨可以提取出氮，价值连城的氮——在所有挥发性分子都必须依赖进口的殖民星球上，氮的价值远高于金和铂。从经济角度来看，勘探塞德娜绝对是一场赌博：它距离太阳十分遥远，只有找到一座巨型“金矿”，才有花费大量投入将物资运回内太阳系的价值。不过，殖民星球是一个不断扩张的市场，如果他们能够证明塞德娜上氨的储量丰富、对得起漫长的航行时间的话，那么塞德娜就会成为公司的一棵小摇钱树，一个赚钱不快但却十分稳定的收入来源。</p>
+<p>减速进入环绕塞德娜的椭圆形轨道后，他们着手勘探这颗星球上的有机物资源，同时也拍摄了那个奇怪圆坑的照片，并将顺便测出的位置和大致尺寸等相关数据全部发回内太阳系。他们接到了回复，禁止他们靠近那里。他们还被告知，这不是一个天然物体，当然也不可能是人类制造的，因为他们是有史以来第一批抵达塞德娜的人类。这是外星人遗迹。他们没有资格去调查。在内太阳系，有些人担心如果让这帮笨手笨脚、只会凿石头的家伙围着一个无价之宝东挖西掘，造成破坏的可能性会比发现什么有价值的东西大得多。</p>
+<p>在环绕塞德娜的轨道上遥测勘探的时候，他们已经探测到一座富氨矿——一个比大多数小行星都大的冰冻氨水湖。加之冰里还封存着大量有机索林土，使那里看起来像是一个不错的开采入手点。</p>
+<p>采矿船在塞德娜上成功着陆，降落在氨矿附近，距离人工遗迹超过五百千米。会有别人来调查那个人工遗迹，一些步步为营而且小心谨慎的科研团队，他们会从地球上带来所需的全部工具和后勤设备。“流浪破车”号是来这里挖矿的。</p>
+<p>“真是岂有此理！”罗克罗斯说，“我们飞了这么老远，离这颗星球上唯一值得一看的‘观光景点’只有五百千米，居然就这么止步不前了？”</p>
+<p>他的搭档——丁基·齐默嘲弄似的看了他一眼。“我们是来挖矿的，”他说，“要是黑色圆坑里没有氨，谁还会去关心它呀？”</p>
+<p>这个三人工作组里的第三个人——艾德里安·佩恩说：“只要我们找到富矿，拿到我们该得的奖金，想去看任何景点都不成问题。帮我检查一下工作服的密封性，好吗？”</p>
+<p>罗克罗斯检查了丁基的工作服，又帮艾德里安检查了一下，分别向他们竖起大姆指；接着丁基帮他检查密封性。这种工作服是紧身型的，船员们管它叫“裸装”；当然，每个人都会检查自己工作服的密封性，不过为了保险起见，他们每个人还要交互复查一次。自己给自己做的每一步检查都必须得到一位搭档的确认。检查完密封性之后，罗克罗斯又检查了自己工作服的电池电量，然后帮丁基和艾德里安检查电量，同时他们也帮他复查了一遍。他们整装待发，去执行他们的第一次八小时轮班任务——采集冰芯，架设采矿所需的散热器。如果这座氨矿足够好，他们架设的设备有一天将成为一条行星际输送线的源头——两吨重的冰砖将在这里被感应电动机弹射入轨，无动力滑行几年之后，抵达内太阳系的消费市场。当然，这些工作全部会由机器自动完成。但目前，勘探和架设设备还需要人类亲自动手。</p>
+<p>不过，林恩·罗克罗斯并没有全神贯注地工作，虽然他留出了足够的注意力保证自己不犯错误。他还没有把那个人工遗迹抛在脑后。他另有打算。</p>
+<p>林恩是“流浪破车”号采矿作业的班组长，负责一个三人工作组。他有资格操作低重力低温地外采矿作业中用到的每一件设备。采矿和勘探是他的老本行，自从离开家乡灶神星上那些带有半球形穹顶的城市，他干的就一直是这一行——那一年他十五岁，在小行星带中部地区，这是法定的成年年龄。他的第一站是冰卫星木卫四。在一条融冰生产线上当了一段时间的廉价劳动力之后，他登上了一艘采矿飞船。五年的时间里，他先后在四艘不同的采矿勘探船上工作，拿到了他的工会会员证，也从一个干粗活的矿工一步步升到轮班组长。如果可以的话，他喜欢花点时间搞些随机勘探——只身一人降落到一颗看起来还不错的天体上，除了一身增强型工作服、一台激光钻和一台质谱仪外，什么东西都不带。一次随机勘探可以花上好几个星期的时间，他会一个人在那里分析矿物成分，希望能够撞上罕见的好运，发现有用的矿物。一个人待在工作服里，跟宇宙的其他部分隔绝开来，这让林恩感觉舒服极了。</p>
+<p>林恩觉得自己已经够聪明了，不过他知道如果只靠自学，只去了解那些引起他注意的东西，那么轮班组长大概就是他能够爬到的最高职位了。在飞往塞德娜的漫长旅途中，他已经报名参加了大学课程，这是升到主管的第一步，他想最终拥有属于自己的飞船。现在，他的个人数据机里装满了业余时间用来学习的课件：文学、结构力学和物理学，全都是入门级教程。学习本该占据他所有的下班时间，因为他有太多的东西需要迎头赶上。不过，既然塞德娜上发现了奇怪的黑色圆坑，他不妨改变一下自己的计划。</p>
+<p>他知道，内太阳系传回的无线电指示与其说是命令，倒不如说是建议。“流浪破车”号的船员们可不会去接受几十亿千米外的科研机构下达的命令。</p>
+<p>工会明文规定，哪怕是开采高品级氨矿，只要上班时间超过八个小时，工头就必须按照危险工作工资的三倍给矿工支付加班费——而凯勒曼这个铁石心肠的家伙是肯定舍不得付加班费的。林恩和他的组员每工作八小时就会有十六个小时的休息时间，工会干事将一丝不苟地盯着他们，不让他们在休息时间里接任何非正式的工作任务。所以，他有的是时间。</p>
+<p>他们下班了，为低温矿物学实验室带回了用于分析的冰芯样品。丁基和艾德里安脱下工作服洗澡去了，林恩目送他们走进浴室，自己却没有跟进去。</p>
+<p>林恩觉得他可以翘一天课，避开下班后没完没了的牌局。有趣的东西就在那里，如果不去看一眼的话，他会后悔死的。虽然这是一次采矿任务，不是勘探任务，但林恩完全有资格单独进行勘探，而且下班后他想干什么就干什么，用不着告诉任何人。因此他溜了出去，没有告诉任何人。</p>
+<p>那个人工遗迹在半颗星球以外，离“流浪破车”号位于氨矿附近的着陆地点有点距离。他给自己的工作服充满电，然后全面检查了一辆雪地履带车。这是他从设备仓库里开出来的——准确地说是偷出来的，因为他实际上并没有当班，但他又不是不打算还回来了——不然，他还能开到哪里去呢？他甚至都没有消耗任何燃料，因为这辆雪地履带车配备了一台小型核发电机，不论有没有发动，都会恒定地产生14.3千瓦的电能。</p>
+<p>单独外出，这是他犯下的第一个错误。几个小时之后，这个错误开始变得致命了。</p>
+<p>以差不多每小时两百千米的平均速度飞驰近三个小时是非常刺激的。在微重力环境下，雪地上的每个小鼓包都会把雪地车弹上半空。在头一个小时里，他小心翼翼地控制着方向，尽量沿最平滑的路线前进，一路颠簸吓得他都快要灵魂出窍了。不过，这台雪地车配备了姿态控制推进器，足以使车身在空气中保持稳定，不至于翻转（确切地说，这里的“空气”应该说成是“真空”才对，因为塞德娜周围包裹着的、以氦气为主的气体，气压低到了根本无法用“空气”这个术语来描述的地步）。颠簸了一段时间之后，他意识到这里的积雪非常厚实，把这颗星球上的山丘变成了天然跳高滑雪场，他的胆子也越来越大了。现在，他开始享受这种雪地跳高，他能够在空中悬停五秒，然后是十秒，最后达到三十秒！</p>
+<p>这可比学习好玩太多了，他想。</p>
+<p>透过打开了图像增强仪的护目镜，他看到四周都是低矮起伏的圆丘，呈现出一种深深的暗红色，就像佐治亚红土的颜色。塞德娜可真漂亮。林恩看到，平缓的山丘被刺目的明亮恒星照耀，闪烁着五颜六色的光——那是散落在红色索林土之上、断崖峭壁之间白色冰雪产生的反光。他试着关闭了图像增强仪。一开始，他只能看见一团漆黑，感觉自己在黑暗中飞速前行，完全依靠自动驾驶仪避开障碍物，弄得自己胆战心惊。一分钟之后，他开始在黑暗中辨认出一些模糊的影像。又过了几分钟，尽管太阳远在几十亿英里之外，但他发现自己仍然能够看见周围的景物。关闭了图像增强仪，四周的地面失去了色彩，在星光下闪烁着幽灵一般的苍白微光；太阳则显得无比的小，用一个大头针帽就可以把它完全遮住。</p>
+<p>在他看来，这幅景象似乎更加真实，所以图像增强仪就这么一直关着。平视显示器为他指示周围的地形，自动驾驶仪则挑选最平滑的路线穿越雪原。“你们这些家伙真该跟我一起来，”他对着空气自言自语，“打牌不好玩，至少在没发工资之前一点意思都没有。”</p>
+<p>他很幸运，没有直接开进那个人工遗迹。他在雪地履带车上玩高难度滑雪跳高玩得忘乎所以，以至完全忘了留意周围的地形，甚至连自己开了多远都不记得。幸亏他的导航电脑没有忘记，在他靠近人工遗迹时及时提醒了他。</p>
+<p>稍加提示，他就看见它了：远处的地平线突然断了一截。林恩重新打开图像增强仪，人工遗迹一下子变得非常显眼——红色的地平线上陡然缺失了一环，想不注意都难。他减慢速度，小心翼翼地接近它，接近积雪和人工遗迹之间刀切般分明的边缘，最后走下雪地履带车，一点一点向前蹭。</p>
+<p>他向下看。</p>
+<p>黑暗中闪烁着繁星。</p>
+<p>有那么一瞬间，他觉得这是一个穿透整颗星球的大洞；接下来他又怀疑，这可能是另一个宇宙的入口。</p>
+<p>林恩把雪地履带车固定在地上，又把自己和雪地车牢牢地拴在一起。他的工具包里装着他所有的装备，不过，带着工具包会让他笨手笨脚，甚至都无法趴下，所以他解下了工具包，只穿着紧身“裸装”轻装上阵。确认安全绳牢固可靠之后，他跪在外星人遗迹边缘，俯身向下张望。</p>
+<p>他看到一个金色的头盔面罩——他自己的头盔面罩——向上看着他。</p>
+<p>黑色的表面根本不是黑的，而是一个巨大的镜面，在他前面轻微下斜，反射着太空的黑暗。凑近观察，他可以看见镜子中反射的清晰的恒星影像。他离镜面太近了，以至于它看起来像是一个完美的平面，但抬头眺望远方，他就能隐约看出这是一个曲面。</p>
+<p>他把手放在镜面上（镜子里的倒影也从下面伸出手来贴着他的手），摸起来感觉平整光滑——绝对平整，比油还要光滑，就像什么都没摸到一样，他的手掌在镜面上滑动时，根本感觉不到任何阻力。</p>
+<p>透过手套他无法感觉温度。他的工作服是一个几乎完美的绝热体；当然，工作服要在外太空发挥作用，让矿工们穿着它在海外天体和柯伊伯带天体的低温冰原上行走，绝热是必须的。</p>
+<p>林恩检查了手套指尖上的外部温度计。他把手指按在镜面上，温度计显示的读数是5开尔文。这是一个不可能出现的读数，因此他把手挪到了另一个位置。第二个位置仍然是5开尔文，第三个位置也一样，第四个也一样。</p>
+<p>“真他妈见鬼，”他说，“简直比那帮放高利贷的家伙的心还要冷。”</p>
+<p>他的温度计是好的。他测量了凹坑边上一小团硬块积雪的温度，读数正常——30开尔文。塞德娜的表面比地狱里的洞穴还要寒冷，但黑色表面的温度居然还要再低二十五度！</p>
+<p>慢慢地，他想明白了。这个表面不是黑的，它是一个反射面，只是因为反射着星空，看起来才会是黑的。它一定非常接近真正的完美镜面。尽管远离太阳，塞德娜上的积雪仍然会吸收阳光，这些热量让它们比绝对零度高了几十度。但这个完美反射镜一定没有接收任何光线，因此依然寒冷。他意识到，在某个远红外波段，这个镜面一定辐射着少量热量。不过在太阳发出耀眼光芒的所有波段中，它什么都不吸收，因此才比它所在的地面更加寒冷。</p>
+<p>这是一个巨大的凹面镜，一个直径达好几英里的巨型天文望远镜——又是为了什么目的而建造的呢？</p>
+<p>林恩开始环顾这个镜面，心中惊叹不已。没有任何东西能够显示它的年龄，不过可以肯定，它一定非常古老。是谁在什么时候建造了这个镜面呢？塞德娜是太阳系柯伊伯带中轨道较为椭长的天体之一。这颗矮行星在一条长椭圆轨道上缓缓运行，最远可以抵达距离太阳大约1,000个天文单位的地方，几乎要脱离太阳的引力束缚了。或许它本来是一颗在恒星之间寒冷黑暗的空间中游荡的天体，直到几百万甚至数十亿年前，被太阳的引力俘获。它来自哪里？哪个未知的种族建造了如此巨大的望远镜镜面，目的何在？</p>
+<p>他俯下身，把面罩紧贴在镜子的表面，一只手缠绕在紧绷的安全绳上维持着平衡。镜面完美平滑，完全反射。突然，安全绳松了。</p>
+<p>林恩站起身，看见雪地履带车正在黑暗中隐隐向他滑来。他之前把雪地车靠在一个冰丘旁加以固定，但核反应堆发出的废热融化了冰丘，雪地车现在自由了，开始蹒跚着滑下雪坡，喝醉酒一般摇摇晃晃地向他冲来。为了避开雪地车，他想都没想就后退了一步。</p>
+<p>他立即意识到了自己的错误。他的防滑靴找不到任何着力点，镜子的表面比冰还要光滑，他的脚直接滑了出去。他四仰八叉地跌倒了。在微重力环境下，任何动作看起来都像在放慢镜头。他的一只手抓住了之前放在镜面边缘的工具包。有那么一会儿，他停在了镜面边缘，脸朝下趴着，脚悬在巨型镜面的斜坡上左摇右晃。他左手抓着斜坡边缘的工具包，整个身体都挂在这只手上，右手仍然紧紧攥着现在已经不再紧绷的安全绳。</p>
+<p>雪地履带车向前滑动，撞上起伏的冰面，侧翻在地，悄无声息地溅起一团深红色的雪雾，慢慢停了下来。</p>
+<p>局面似乎稳住了。他尽量不移动身体，动作异常缓慢地收紧安全绳，小心翼翼地拉了拉。雪地履带车在原地一动不动。他用一只手，把安全绳固定在了他的腰带扣上。</p>
+<p>塞德娜上的重力非常微弱，还不到一个标准地球重力加速度的十分之一。把自己拉出凹坑，哪怕只用一只手，对他来说也轻而易举。他放松了一下，危险似乎暂时退却了。他的左手越来越僵硬，因为这只手正用一种非常别扭的姿势抓在镜面边缘的工具包上。他稍稍变换了一下姿势。</p>
+<p>把他的身体锚定在镜面边缘的工具包，突然从雪地上松脱出来。</p>
+<p>仿佛是华丽的慢镜头回放，工具包和林恩缓缓滑下镜面。他挥舞着双手伸向凹坑边缘，寻找一切他可以抓住的东西，最后只抓到了一把积雪。手忙脚乱之中，他松开工具包，任由它滑下了斜坡。工具包微微旋转着，下滑的速度越来越快。</p>
+<p>安全绳仍然扣在他的腰带上，另一端系在雪地履带车上。他滑下镜面，直到松弛的安全绳再次绷紧。绳子略微伸长了一点，但是挺住了没有断。在他的上方，这根绳子的另一端，雪地履带车稍稍晃了一晃，但没有移动，仍然牢牢地扎在冰中；而绳子这一端的他则挂在镜面斜坡上左摇右晃。他伸出手臂，但镜面边缘总是比他伸直的指尖远了那么一丁点儿。他伸出一只手，抓住绳子，向上攀去。</p>
+<p>腰带扣断了。</p>
+<p>绳子从他的指间松脱，就像上面涂了油一样。林恩·罗克罗斯以一种缓慢、从容、优雅的姿态，沿着没有摩擦力的镜面滑了下去。</p>
+<p>在滑落的过程中，他试着伸手去抓斜坡的顶端。这个大圆盘的边缘离他的指尖只有一英寸，但无论怎样疯狂地舞动双手，他都抓不到任何着力点。他一路顺畅地向下滑，速度越来越快，虽然速度增幅不大，但不可阻挡。这真让人抓狂，又令人泄气。</p>
+<p>我完蛋了，他想。</p>
+<p>在滑下镜面的过程中，他还有时间回顾一下他的人生、他到访过的港口，以及他的罪孽——无论是他已经犯下的，还是他没来得及犯的。所有这些看起来都很美，但都没有了意义。</p>
+<p>回顾这一切花了他大概二十秒的时间。他还在往下滑，脸朝下，依旧做着毫无意义的神经反射运动——努力地在镜面上攀爬。</p>
+<p>过了一会儿，他放弃了，翻了个身，费了一番工夫，努力坐了起来。在一个没有摩擦的表面上运动，就像在做自由落体运动，这方面他有着丰富的经验。琢磨了一会儿之后，他慢慢掌握了其中的窍门。他扭了扭身体，面朝运动方向坐好，评估了一下自己的处境，尽最大的努力让自己平静下来。应急预案已经钻进了他的大脑，他开始反复默念，就像在吟诵祷文一样。</p>
+<p>应急预案第一条：采取任何必要的紧急措施防止情况恶化，并隔离受损部位。</p>
+<p>好吧，这一条简单。他正在滑向一个镜面凹坑的底部，没有任何可以让他抓住的东西。无论如何，情况也不会比现在更糟糕了。</p>
+<p>应急预案第二条：启动121.5MHz和406MHz广播频道的双频紧急定位信标。</p>
+<p>那辆雪地履带车上装着他的紧急信标，还有其他远程通信工具，现在都已经在他上方远得看不见了。备用紧急信标在他的工具包里，正在他前方某处的黑暗中沿着镜面滑行。</p>
+<p>他的工作服上装有低功率超宽频音频通信设备。这是矿工和矿工之间进行通话用的，不过它被有意设计成只适用于短程通信；要不然，一百个矿工的声音早就把无线电频谱给占满了。他录了一段简短的呼救信号，在工作服的音频通信设备里每分钟播放两次，每次持续呼叫五秒钟。这么做是没用的，不过至少可以让他平静下来。呼救信号根本没机会被人听到。“流浪破车”号远在地平线以下，超出了无线电波的传输范围。因为本来不应该有人跑到地平线以下，所以轨道上根本没有通信中继卫星。</p>
+<p>应急预案第三条：调查你的处境，确定你相对于潜在救助来源的位置和速度。</p>
+<p>根本不存在潜在的救助来源。不过，他的工作服确实配备有惯性导航单元，他可以测定自己的位置和速度。他确认导航单元已经开启，并把他的位置和速度发送到平视显示器上。暗红色的图表闪现在他的面罩上，飘浮在这片黑暗之中。他正沿着一个倾角略小于二十度的斜坡下滑，目前正以每秒十八米的速度相对于镜面移动。在他查看数据的同时，惯性导航单元还在不断地更新他的速度：每秒十八点三米，每秒十八点六米。</p>
+<p>他感觉不到自己的速度。除了显示器上正在缓慢增大的数字以外，他感觉自己好像根本没动。</p>
+<p>这对他没有任何帮助。他让电脑显示出他的位置-时间关系图。他穿越镜面的路线是一条完美的抛物线。这是合理的。这个镜面当然应该是个抛物面，是一台巨型望远镜的反射镜。他把抛物线向前延伸，用一个移动的小点画出他的运动轨迹。他的移动速度越来越快，但随着他滑向底部，他的加速度正在降低。按照曲线的形状推算，再过四分钟，也就是他失手滑下边缘之后六分钟多一点，他就应该能够抵达底部。然后，他的动量会带着他爬上另一侧斜坡。</p>
+<p>应急预案第四条：检查消耗品，采取措施减少关键供应品的使用，直到获救。</p>
+<p>林恩检查了自己工作服的状态。实际上，他并没有消耗任何消耗品。他的氧气是由零缓存内嵌式再生氧气系统提供的；他每呼出一口气，其中的二氧化碳就被分离出来，经过一个电解循环分解出氧气，再立即进入他吸进的下一口气中。整套系统靠一块固态电池供电，这块电池还为他工作服里的加热器提供能源。所以，电池才是他的最终消耗品。他检查了自己的电池状态：绿色，还有百分之七十六的电量。这种电池的满格电量足够撑两个班还绰绰有余，因此剩余电量还能供生命维持系统运转十二个小时多一点。有没有可能在电量耗尽之前，有人推测出他在哪里，然后组织营救呢？不太可能。甚至没有人会注意到他失踪了，除非又轮到他上班，那是在——他看了看时间——十三个小时以后。即使到了那时，也得等到下班后才会有人来查岗，然后才会去追查他为什么没来上班。</p>
+<p>应急预案第五条：审视可用资源。以最有效的方式利用现有资源来实现救援。</p>
+<p>很好。他的可用资源就是他的工作服，其他就真的什么都没了。他带来的其他所有东西，不是放在他已经丢失的工具包里，就是落在了雪地履带车上。如果他穿的是适合太空作业的工作服，那就一点问题都没有了：机动推进器将提供充足的推力，能够随心所欲地沿着任意方向把他推上斜坡。但事实上，他穿的是适用于地面作业的工作服，没有配备任何推进器。</p>
+<p>应急预案第六条：在紧急情况结束后，联系空间监测机构取消紧急求救呼叫。</p>
+<p>他估计，紧急预案的这一部分他可以忽略。</p>
+<p>从头到尾默念一遍应急预案，没有给他指明任何解决问题的出路，不过至少减轻了他的恐慌。现在他距离底部还有一分钟，正以每秒一百六十米的速度滑行。他在脑子里换算了一下单位。灶神星，他从小长大的地方，最早是美国人的殖民地，一直顽固地拒绝接受公制单位，甚至在美国本身都并入欧盟之后，那里依然我行我素。他的滑行速度差一点就达到每小时一百英里了。他又一次查看了显示器，发现滑行路线其实不会经过底部正中央。他会从左侧擦过中心点。没错，他想。系住安全绳的腰带扣突然断开时，他正在左摇右摆；侧向速度说明，他的实际滑行路线是一个不会经过中心点的椭圆弧线——实际上，应该是一个李萨如曲线。他会从这个镜面的底部中心点的左侧不远处经过。他缓慢地转动着自己，向右张望，心里清楚这是一个毫无意义的动作，因为没有什么东西可看。</p>
+<p>不过，还真有一些东西在寂静中滑了过来。他看不太清楚，这才意识到图像增强仪还没有开启。他顺手打开了它。</p>
+<p>他正在高速经过一堆黑色的沙石和几块巨大的圆石。看起来它们离他只有几米远，不过他瞥了一眼测距仪，发现这是一个错觉：那堆沙石差不多在五十米开外。镜面的底部并非空无一物，而是装满了一百万年来落入这个环形山又滑到底部的各种碎片。</p>
+<p>工作服的恒温器工作良好，他却突然感觉到一阵寒意。以每小时一百英里的速度撞上这堆碎片，倒是可以一下子终结他的所有问题。</p>
+<p>那堆沙石从他身边滑过，在他身后变得越来越小——或者应该说，是他从那堆沙石旁边滑过才对。他已经经过了滑行轨迹的最低点，现在正在上升，滑上对面的斜坡。</p>
+<p>为了节省绘图所消耗的那点电能，他重新关闭了图像增强仪。他现在正双脚朝前滑上斜坡。他检查了一下数据。在他滑到最低点的时候，他的最大速度差不多达到了每秒一百七十米。现在他的速度越来越慢，同时斜坡也越来越陡。他正滑向对面的镜面边缘。他躺了下来，想思考一下，结果一眼就看见了天空。</p>
+<p>即使不打开图像增强仪，天空也显得无比壮观。他的身体下面有星星，身体上面也有星星，就好像他躺在一块完全透明的冰片上，在无尽的太空中滑行一样。太阳是一小粒火种，非常明亮，几乎刺痛了他已经适应黑暗的双眼，然而它又非常渺小，几乎散发不出多少光芒。在他移开视线之前，他能够看到太阳被一个朦胧的光盘包围，看起来非常暗淡，甚至比太阳在眼里留下的残影亮不了多少——这是黄道光。包围着黄道光的则是繁星，就像散落在天鹅绒夜幕上的数百万钻石颗粒，闪烁着从铁青到深红的各色光芒。</p>
+<p>林恩盯着这些繁星，又在脑子里过了一遍应急预案。停止进一步损害，大声呼救，确定位置，节省消耗品，审视资源并解决问题，打电话回家。</p>
+<p>第五步是最难的：审视可用资源并解决问题。不过，他仍然没有什么资源可以审视。他的地面工作服没有任何配件，甚至没有备用氧气瓶，不然他还可以拿来做一个冷气体推进器。工作服为他挡住寒冷和真空，给他提供能够呼吸的东西，仅此而已。生命维持系统和电池都是内嵌在工作服里的，即使他想拿，也根本拿不出来。而其他的所有东西都在矿工工具包里。</p>
+<p>审视资源。工具包怎么样？它也跟他一样，在同一块镜面上滑行，只不过早了几秒钟。里面或许有什么工具能够解决他的问题——比如说，无线电信标。而且，即使没有其他有用的东西，他还可以把它当成反作用体。如果他能以足够快的速度把它扔出去，他就可以获得一点动量，让自己滑出镜面边缘。工具包就在他所在的镜面上，也许只有几米远。</p>
+<p>林恩扭了扭身体，坐了起来，把他的图像增强仪效果开到最大。每个工具包的颜色都不一样，这是为了确保矿工不至于随手错拿别人的工具包；他的工具包是亮柠檬绿色。只花了几秒钟，他就看到它了。就在那里，在他前方不到二十米的地方，一边滑动还一边慢慢地旋转。</p>
+<p>事实上，既然工具包在他前面，它就会比他更早抵达这个巨碗的另一侧边缘，然后掉转方向，冲他滑回来。</p>
+<p>根据他在显示器上绘制的图表，距离镜面边缘大概还有一分钟。他死死盯住在他前面滑行的工具包。没错，就是那里——它会不会飞出边缘，滑出这个巨碗呢？不会。工具包只和镜面边缘轻轻地接触了一下，然后向左一偏，开始向他滑落回来。</p>
+<p>他正在滑向边缘，速度越来越慢，而工具包正在滑落，速度越来越快。他张开四肢趴在镜面上，努力伸手去够工具包，但它从他身边滑过，离他尽量伸展的手指还差老远一段距离。</p>
+<p>不过，他没有时间为错过这次机会而伤心难过。片刻之后，镜面边缘来了。他四肢并用地在镜面上努力攀爬，像一个游泳者一样使劲扑腾。只要他能够再往上爬高哪怕一米……</p>
+<p>没有用。镜面边缘就悬在他的前方，近在眼前，却又遥不可及。无论他如何努力，就是无法再前进分毫。</p>
+<p>他开始重新下滑，速度越来越快，镜面边缘也消失在了远方。</p>
+<p>为什么工具包没有滑回到他手里？他意识到，这是因为它也像他一样，沿着一条椭圆轨迹滑行，跟他的运动轨迹并不交叉。</p>
+<p>他现在正在往回滑。再过六分多钟到达底部，十二分钟后抵达另外一侧。然后再花十二分钟滑回来，再滑过去，滑回来……直到他耗尽电源，被冻僵并且窒息而亡。在那之后，他的尸体还会摆荡多久？几天？几年？这个镜面不可能一点摩擦力都没有；宇宙中没有任何一样东西是完美的。如果真有那么完美，那堆沙石就不会出现在底部中心；掉进来的岩石应该一直摆荡才对。</p>
+<p>他觉得自己就是一个单摆的摆锤，只不过这个单摆靠的不是一根绳索，而是一个没有摩擦的表面。有那么一会儿，他的思绪把他带回到了孩提时代，那段在灶神星上快乐成长的日子。他和哥哥比赛荡秋千，看谁能荡得更高。他们肯定尝试过上百次，努力摆动着秋千，想让它越过横杆。他们从来都没有成功过，虽然灶神星上微弱的引力已经大大降低了难度；每当秋千荡得高过支点时，绳子就会松弛下来，秋千也会猛然掉落。</p>
+<p>回想过去不会对他有任何帮助，他强迫自己回到现实，思考他目前的处境。再过几分钟，他就会回到起点。那条安全绳如何？如果它还悬挂在那里——不过这不太可能。他在脑子里回放了一遍自己跌落的过程。安全绳在腰带扣断开的时候，已经像根橡皮筋一样弹回去，消失在了边缘上方。他会努力抓住绳子，如果够得到它的话，但他不抱太大希望。</p>
+<p>果然如此。他向上滑，距离边缘近在咫尺。有那么一会儿，他似乎悬停在那里，差一点就可以够到边缘，但他终于还是又滑开了。这一次，他和工具包之间的最近距离并不比在镜面另一侧时近多少，安全绳也丝毫不见踪影。</p>
+<p>不过，还有其他东西需要思考。塞德娜每十个小时自转一周。再过——他看了看时间——两个小时，太阳就会直射头顶。在距离地球一百个天文单位的寒冷黑暗之中，太阳显得十分昏暗，不过，当阳光被一个直径二十千米的镜面聚焦在一起时，又会怎样？他意识到，这很可能就是建造这个镜面的实际目的。这不是一台望远镜，而是一台巨型太阳灶。</p>
+<p>不过有一点他没有想到。镜面确实能够使阳光高度集中，但阳光会聚的地点将是镜面的焦点，位于镜面上方好几英里的高空。在镜子的表面，阳光不会比平时更亮，也不会更暗。他应该担心自己会不会被冻僵，而不是会不会被烤焦。</p>
+<p>经过镜面底部时，林恩再次打开了图像增强仪，看着位于中心的那堆沙石，试图找个方法来利用它。不过它依然远在五十米外，没有任何可用的东西。</p>
+<p>他关掉图像增强仪，又一次被繁星和黑暗包围。</p>
+<p>或许他应该回顾一下自己的人生？和哥哥一起荡秋千的日子真是一段美好时光，虽然他们从来没能越过那根横杆。他可以用所剩不多的几个小时来回忆一下美好时光。他想，作为一个勘探者，自己到过很多地方，但他只见过那里阴暗、破旧的一面——那些靠近船坞的城区看起来全都一样。他知道矿工们每到一座采矿点都会找个姑娘来陪，但不管交易是明面上的还是暗地里的，无论如何，他们都会花钱买春。有人雇他的时候，他的收入还算不错，但不知道为什么，他从来就没有真正省下过一分钱。他觉得自己不是在浪费生命，至少不完全是，不过他已经玩够了，该是向前看的时候了。他需要学习，获得学位，闯出些名堂来。</p>
+<p>好吧，他有大把的时间来学习，如果这就是他想做的事情的话。倒不是说学习对他有多大的用处——他还困在一个碗里呢！不过这倒提醒了他，他确实有一个之前没有想到的资源。他的个人数据机里存满了学习资料，其中一个科目是物理学。物理学教程里会不会有某个办法能够解决他的问题呢？虽然可能性不大，但为什么不试一试？</p>
+<p>他启动了学习资料，在搜索栏中输入：“问题，在一个巨型镜面上滑行。”他压根儿就没指望能够找到任何结果，但搜索引擎还真给他找到了一条。令他惊讶的是，这个结果不是在物理课件里找到的，而是从文学课件中搜出来的。这条链接指向二十世纪一篇古老的科幻小说，讲述了两个人在一块没有摩擦的镜面上滑行的故事。他一向讨厌经典科幻。他辍学以前在学校里已经读得够多了。老师们好像都喜欢科幻，但以前的那些作者写出来的东西总是错得离谱。主人公总是在没有任何防护措施的情况下，做一些极其危险的事情，他们全都愚蠢得要死。</p>
+<p>那么，偷走一辆雪地履带车，在一颗陌生星球上独自远行，又不告诉任何人他打算去哪里，这样的事情算不算愚蠢呢？好吧，至少那个时候看起来，这个主意还不赖。</p>
+<p>数据机里没有这篇小说的全文，只在一份二十世纪文学概述里有一段简要介绍。他浏览了一下，就愈发失望地意识到，这跟他的处境不太一样：这篇故事的主人公可以支配的资源比他多得多。在这个故事里，两位主人公被绳子拴在一起，他们借助这一点不断加快旋转速度，让他们相互飞离。课本上继续讨论说，故事里的这种方法并不管用；作者忽略了角动量守恒。没有用！如果这是一本实体书，而不是平视显示器上的一团荧光的话，林恩早就厌恶地把这本书给扔掉了。</p>
+<p>要是他真有一本书可以扔就好了！任何东西都行！这样，他还可以利用动量。现在的处境简直就像不带任何设备就在太空中飘荡。他根本就控制不了自己的运动。</p>
+<p>简介还提示他参见相关条目：简谐振荡，无摩擦运动。</p>
+<p>他点开简谐振荡，发现这好像是一个有关正弦和余弦的教程，对他似乎没有明显帮助。接着，他翻到无摩擦运动，开始浏览教程。教程上说，超流氦是支持无摩擦运动的唯一一种已知物质。好吧，这很有趣。外星人有没有可能已经找到了某种方法，能够将超流氦凝成固体？不可能，这太荒谬了。不过，这个镜子的表面仍然极其寒冷，冷得连上帝都要打哆嗦。或许构成这个镜子的某种物质的表面上有一层薄薄的超流氦？他可不可能通过加热镜面来破坏这种效果呢？</p>
+<p>但这没用，是条死胡同。即使镜面有摩擦，对他来说也可能仍然太滑，不可能让他顺着斜坡爬上边缘。他必须在斜坡上刻出台阶才行，但他没有工具。这种材料是不是有弹性呢？他用力踢了踢镜面，感觉就像踢在坚硬的花岗岩上。即使隔着靴子，他的脚趾还是踢疼了，但镜面连最细微的弹性都没有表现出来。不管构成镜面的物质是什么，它都很硬。</p>
+<p>没有摩擦的表面大概很有商业价值，哪怕它只在接近绝对零度的低温下才能工作。如果凯勒曼这个王八蛋知道，他手下的一个工人正在一种价值超过这颗星球上所有氨矿总和的物质上独自滑行，救援大概很快就会赶到。</p>
+<p>这种想法并不会让他距离获救更近一步。</p>
+<p>边缘又靠了过来，或者说，他又在靠近边缘。他向边缘滑去，速度缓慢，在距离边缘近到令人抓狂的地方停住，然后又滑落下来。林恩确认无线电仍在广播着毫无用处的呼救信号，而工具包依然无法够到，然后检查了电池状态。没有用，没有用，没有用！</p>
+<p>他趴在斜坡上往下滑，就像乘雪橇一样。他转了转身，小心翼翼地用手和膝盖支撑起身体，然后挺起上身跪在斜坡上，用一只手扶住镜面维持平衡。虽然有些摇摇晃晃，但一段时间之后，他控制住了。这好像不算太难。他尝试站立起来，而且确实站了一会儿，双手拼命挥舞着想要保持平衡，但双脚还是从身体下面滑了出去。</p>
+<p>这有点像在冰面上尝试站立。他努力着，终于找回了平衡。他意识到，这很像是在木卫四的山丘上玩滑雪板，或者在火星的极冠上滑雪——在离开飞船上岸度假时他尝试过一次。火星上的二氧化碳积雪也几乎没有摩擦，不过，如果双腿放松并且保持警惕，你是可以站起来的。关键技巧就是要把手臂张开，让膝盖弯曲，在滑行过程中不断调整平衡。微重力环境很合他的口味，给了他足够的时间进行调整。</p>
+<p>他站起来了，像冲浪一样滑下斜坡。要是他哥哥现在能看到他就好了！</p>
+<p>这对改善他的处境一点帮助都没有，但能够站起来已经给他带来了巨大的成就感，仿佛他已经掌控了自己的命运。他想象自己是一名奥运滑雪冠军，正沿着奥林匹斯山斜坡上的人造雪道飞驰而下。他看了一眼显示器：差不多又经过底部开始再次爬坡了，他正以每秒一百五十米的速度滑行。这肯定打破了所有的滑雪纪录！他举起双手，向想象中的成千上万名热情观众挥手致意——然后向后滑倒，跌坐在镜面上。</p>
+<p>在十分之一地球重力的加速度下，跌倒没什么大不了。林恩转了转身，又试了一次。通过练习，他发现自己几乎不需要刻意努力就能站起来了。</p>
+<p>就好像能够站起来可以给他带来好处一样。</p>
+<p>是不是这样呢？等一下，如果他能站起来，那他能不能跳起来呢？在十分之一地球重力加速度下，他应该可以跳得很高。有没有什么办法能够让他在滑到顶端靠近边缘的时候，跳过那一段短短的距离呢？</p>
+<p>经过一点练习，他发现他确实可以把自己推离冰面，短暂地腾空而起。要真正跳起来，需要高度集中注意力，并且协调好动作，否则四肢就只会在冰面上徒劳地四下挥舞。（不是冰面，他想，应该是镜面才对。其实这不是冰。）</p>
+<p>不过，他还没来得及为这突如其来的希望欢呼多久，泡沫就破灭了。能够跳起来并不会给他带来任何好处，因为他只能竖直起跳。不，甚至连竖直起跳都算不上——由于根本借助不到任何摩擦力，他起跳的方向只能完全垂直于镜面。他把他在镜面上的滑行轨迹调出来，显示在平视显示器上端详，试图找出他推理过程中的漏洞。假设他恰好在抵达最高点的那一刻起跳，但镜面倾斜的方向不对，反而会让他跳得距离边缘更远。没有用。如果他早一点起跳呢？不，还是不行；他起跳的方向总是错的。</p>
+<p>他在平视显示器上画了一幅示意图，还在上面加了一个身穿工作服的小人图标。他费尽心思地研究着，但始终找不到一种能够借助跳跃帮助自己脱离困境的方法。事实上，跳跃甚至在帮倒忙——如果他滑向边缘的速度能够再增加一点，他就可以成功逃脱，但跳跃似乎在往相反的方向增加速度。</p>
+<p>等一下，这个想法对吗？他的跳跃将完全垂直于他的运动方向，因此，跳跃不会改变他沿着镜面滑行的速度。或者还是会改变？他真希望自己能够多懂一点物理学。镜面是曲面，而他的跳跃是一个矢量，肯定有某种方法能够让这个矢量为他所用，但他看不出来。对他来说，这太复杂了。</p>
+<p>审视可用资源，用它们来解决你的问题。他的资源就是他自己，一个在世界最大的秋千上摆动的孩子……还有存在数据机里的物理学教程。</p>
+<p>他重新翻开教程，在解释简谐运动的一屏又一屏资料中搜寻。他发现，抛物线形势阱中的滑行正好就是他目前的处境。教程上解释说，他的运动遵循着一条完美的正弦曲线——这一点他已经知道了，而振荡的周期是固定的——这一点对他来说没有用。接着，教程开始介绍受驱振子，也就是有一个周期性出现的外力施加在振子身上。即使这个外力非常小，只要它与振荡周期同步，也能迅速增加振幅——他简直要抓狂了。这正是问题所在！他连这样一个“非常小”的外力都找不到，教程也没有给他提供任何线索。相反，教程开始向他讲授有关动能和势能的内容。</p>
+<p>如有疑问，就去读该死的手册，他想。这个建议他起码听过一百次。有关简谐振动的教程是他手头仅有的手册。如果有解决办法的话，它就一定藏在这本教程里。</p>
+<p>他开始努力学习简谐振动这一章，从头看起，钻研习题，一门心思地沉浸在解决方案之中。有一次，他查看平视显示器，震惊地意识到，时间已经在不经意间过去了一个多小时，整整摆荡了三个来回。他的注意力完全被吸引了，他觉得这些内容很有趣，本身就值得好好研究。他突然明白了物理学家为什么会如此热爱他们的研究。解决办法一定就在其中，就隐藏在动能和势能的那团迷雾里面。</p>
+<p>确实如此。</p>
+<p>他终于想明白了，几乎要笑出声来。答案就是秋千。</p>
+<p>他需要认真一点。他查看了一下显示器，发现自己又在物理学课本上钻研了两个小时。太阳已经西斜。在他没有留意的时候，他已经在镜面上摆了八个来回。他检查了能量状态，电池大概还能维持九个小时。不过，他已经在脑子里理清了具体步骤。</p>
+<p>他正仰躺在镜面上往下滑，因此第一件事就是翻身俯趴在镜面上。他调出显示位置和速度的图表，注视着显示器上他的滑行状态。接近镜面底部时，他做好了准备，手和膝盖向上推，共同把身体支撑起来。当滑行到单摆运动的最低点、速度达到最大时，他站了起来。就这样。这就是他的计划。</p>
+<p>在滑向边缘的六分钟里，他在光滑的镜面上保持站立状态——这就是诀窍。他站起来的时候，身体的重心大概会抬高七十至八十厘米，不算太多。</p>
+<p>边缘靠近了。站在镜面上，尽管倾斜的角度明显偏离边缘，但他现在可以越过边缘看见积雪覆盖的平原了。那辆雪地履带车居然踪影全无。</p>
+<p>不过，虽然他能看见巨碗的外面，但距离能够触及镜面边缘仍然差了一截。不要紧。当他滑行到边缘附近并短暂悬停在那里时，他开始实施计划的下一个步骤。</p>
+<p>他坐下了——或者说，允许自己摔倒了——然后把自己压在镜面上，尽量使自己像一张纸那样紧紧贴在镜面上。就是这样。重心改变了一点点，但是——他希望——如果重复足够多次，效果也会很显著。每次经过碗底，他就让自己站立起来；靠近边缘，就让自己躺倒在地。就像在荡秋千一样，他每次都往自己的运动中注入一点点能量。每当他经过底部，在站立起来的同时，他就把重心朝这个巨型秋千无形的支点挪近了一些，他的速度也会因此增加一丁点儿。当他在边缘附近俯下身体时，他基本上不怎么运动，因此根本没有损失动能。每摆荡一个周期，他就能获得一点点能量。</p>
+<p>下一个周期：在底部站立，在边缘跌倒。再来，再来。边缘有没有靠得更近呢？很难说。再来，再来。他让自己的思绪放空，全神贯注于自己的运动。他回到了灶神星，回到了跟哥哥一起玩的秋千上，试图把秋千荡得够高，赶上他哥哥，越过横杆。再来一次，再来。现在，边缘明显靠得更近了——他跌倒时尽可能伸长手臂，指尖触到了积雪，还不足以抓住边缘，但总算有进步了。他试着用一根手指把自己拉上去，但没有成功。</p>
+<p>跌倒，站起。</p>
+<p>再来，又近了一点儿；这一次他有两个指尖超过了边缘，能够尽力往上拉。再来，再来。现在，他可以把整个手掌探出边缘了。他用全部的力量往下按，把自己拉上去，几乎成功地把手肘探出了边缘，然后又滑了下去。</p>
+<p>接下来这次，他的两只手都探出了边缘，他把自己往上拉，手肘攀上边缘，向上推，然后抬起膝盖跨过边缘，摇晃了一会儿之后，笨拙地翻出边缘，滚到了地面上。</p>
+<p>他出来了。</p>
+<p>他回到了地面上，像一个“大”字一样躺在积雪上，甚至没有呼吸急促。就是这么简单。“物理学，”他说，“这就是物理学。”他觉得站起来还不太安全，于是向外爬了爬，在自己和危险的边缘之间留出几米的安全距离。他检查了一下电量。电池差不多还能维持一个小时，不过这已经足够了。只要回到雪地履带车上，他就可以接入雪地车上的电源。而雪地车就在……</p>
+<p>他的心一下子跌到了谷底。雪地车不在附近。</p>
+<p>他检查了显示器上的惯性导航单元，根本无法相信上面显示的数字——雪地车在二十千米以外！</p>
+<p>显示器上清楚地显示出他和雪地履带车的相对位置。他肯定是从错误的一侧翻出边缘的。</p>
+<p>他坐在积雪上，再三检查着显示器，试图通过集中注意力让事情有所好转。他怎么可能犯这样一个低级错误呢？</p>
+<p>雪地车在镜面的另外一侧，但并不是正对着他的另外一侧。在他沿着镜面来回滑动的几个小时里，这颗星球在他下面悄悄地旋转。他确实是从掉下去的那一侧爬上来的，但星球本身移动了。雪地车在圆周上的位置跟他形成了大约一百五十度的夹角。这比雪地车刚好位于正对面要好一些——他只要逆时针走二十九千米就可以了，比走完半圈整整三十五千米还稍微近点儿。</p>
+<p>不过，二十九千米跟一千千米或一百万千米相比，大概也没有什么太大的区别；他根本不可能在剩下的——他看了看显示器——五十二分钟里，走完这么长的路。</p>
+<p>他躺倒在地，突然间筋疲力尽。他已经有多久没有睡觉了？他真想好好睡上一觉——</p>
+<p>这并不能改变他的处境。他又坐了起来，应急预案像祷文一样在他的脑子里回放。第一条：采取任何必要的紧急措施防止情况恶化……</p>
+<p>他盯着黑色的镜面，想象着雪地履带车所在的位置，就在这个巨碗的另一侧边缘，隐没在黑暗中不见踪影。</p>
+<p>……第五条：审视可用资源。以最有效的方式利用现有资源来实现救援。他现在拥有的资源是一个没有摩擦的巨碗，完全漆黑，完全光滑，完全没有摩擦。</p>
+<p>这是他最不想做的一件事，但等待和思考于事无补，只能耽误他的时间，或许还会磨灭他的勇气。必须当机立断。</p>
+<p>他站起来，向外走了几步，然后转身，双眼紧盯着镜面边缘。就这样吧。</p>
+<p>这还是物理定律。他之前之所以被困在这面镜子里，是因为他掉进去的时候携带的能量不足以使他再逃出镜面。现在他要做的就是穿过镜面，向右略偏一点，不过因为镜面会把他的运动轨迹弯成曲线，作为补偿，他瞄准的时候必须向右多偏一些。只要他携带的能量足够多，只要他掉进去的时候速度足够快，这面镜子就困不住他。如果他是冲进这面镜子的，而不是掉进去的，他就能够再冲出来。</p>
+<p>这就是物理学。</p>
+<p>他脑子里的另一个声音正在冲他尖叫：这是在自杀！但他没有选择。从来就没有。他开始起跑，然后跳向镜面。他的俯冲让他沿着一条长长的平坦曲线落向镜面。在微重力环境下，他似乎悬停在空间之中，身下的黑暗映照出上方无边无垠的宇宙，沿着弧线下落时短暂的失重让他感觉像是永恒。</p>
+<p>然后，他落到了镜面上，滑行，再滑行。在他的头盔里，显示器显示出他的轨迹，推测出他穿越镜面的路线。</p>
+<p>但他并没有留意。他知道自己的运行轨迹没错。他能感觉出来。</p>
+<p>终于，边缘到了，他成功地越过了那根横杆。</p>
+<p>——献给罗斯·罗克林恩</p>
+]]></content>
+      <categories>
+        <category>个人收藏</category>
+        <category>短篇科幻小说</category>
+      </categories>
+      <tags>
+        <tag>短篇科幻小说</tag>
+        <tag>《科幻世界》</tag>
+      </tags>
+  </entry>
+</search>
