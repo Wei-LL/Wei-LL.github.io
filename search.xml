@@ -190,6 +190,12 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2023/06/17/hello-world/</url>
+    <content><![CDATA[<p>本打算搞一个用作记录的Blog，但是又不想使用其他网站的Blog功能，然后发现Github可以白嫖到免费的.github.io域名，于是一路下来，基于Hexo + Next主题搭建了自己的Blog。十分感谢知乎大佬<a href="https://www.zhihu.com/column/c_1201860091307458560">枫叶</a>提供的的建站教程。中间有碰到公钥之类的问题，后续有时间了会进行记录。总之这算一个新的开始~</p>
+]]></content>
+  </entry>
+  <entry>
     <title>铀花</title>
     <url>/2023/06/27/%E4%B8%AA%E4%BA%BA%E6%94%B6%E8%97%8F-%E7%9F%AD%E7%AF%87%E7%A7%91%E5%B9%BB%E5%B0%8F%E8%AF%B4-%E9%93%80%E8%8A%B1/</url>
     <content><![CDATA[<h1 id="铀花"><a href="#铀花" class="headerlink" title="铀花"></a>铀花</h1><p><strong>作者：杨丹涛，《科幻世界》2004年05期</strong></p>
@@ -625,23 +631,6 @@
       </tags>
   </entry>
   <entry>
-    <title>LX Music - 开源音乐软件</title>
-    <url>/2023/06/29/%E5%B7%A5%E5%85%B7-LX%20Music/</url>
-    <content><![CDATA[<h1 id="LX-Music-开源音乐软件"><a href="#LX-Music-开源音乐软件" class="headerlink" title="LX Music - 开源音乐软件"></a>LX Music - 开源音乐软件</h1><p><a href="https://lxmusic.toside.cn/">https://lxmusic.toside.cn/</a></p>
-<p><a href="https://github.com/lyswhut/lx-music-desktop">https://github.com/lyswhut/lx-music-desktop</a></p>
-<p>原软件无法下载无损音乐，可配合第三方音源可实现无损下载：</p>
-<h2 id="六音自定义音源："><a href="#六音自定义音源：" class="headerlink" title="六音自定义音源："></a>六音自定义音源：</h2><p><a href="https://www.6yit.com/8498.html">https://www.6yit.com/8498.html</a></p>
-<p><a href="https://www.6yit.com/download?post=8498&time=1669881237">https://www.6yit.com/download?post=8498&amp;time=1669881237</a></p>
-<p>下载六音自定义音源文件的压缩包，下载完成后解压。打开洛雪音乐助手的设置，找到音乐来源，点击自定义源管理，然后点击导入，选择之前下载后解压出来的<code>sixyin-music-resource.js</code>文件。导入完成后，关闭弹窗，然后切换音乐来源为六音音源。切换后，会显示初始化成功，之后下载就可以选择无损音乐。</p>
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>镜中人</title>
     <url>/2023/06/27/%E4%B8%AA%E4%BA%BA%E6%94%B6%E8%97%8F-%E7%9F%AD%E7%AF%87%E7%A7%91%E5%B9%BB%E5%B0%8F%E8%AF%B4-%E9%95%9C%E4%B8%AD%E4%BA%BA/</url>
     <content><![CDATA[<h1 id="镜中人"><a href="#镜中人" class="headerlink" title="镜中人"></a>镜中人</h1><p><strong>作者：（美）杰弗里·A·兰迪斯，洋溢 译，《科幻世界》2009年12月号</strong></p>
@@ -814,9 +803,20 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2023/06/17/hello-world/</url>
-    <content><![CDATA[<p>本打算搞一个用作记录的Blog，但是又不想使用其他网站的Blog功能，然后发现Github可以白嫖到免费的.github.io域名，于是一路下来，基于Hexo + Next主题搭建了自己的Blog。十分感谢知乎大佬<a href="https://www.zhihu.com/column/c_1201860091307458560">枫叶</a>提供的的建站教程。中间有碰到公钥之类的问题，后续有时间了会进行记录。总之这算一个新的开始~</p>
+    <title>LX Music - 开源音乐软件</title>
+    <url>/2023/06/29/%E5%B7%A5%E5%85%B7-LX%20Music/</url>
+    <content><![CDATA[<h1 id="LX-Music-开源音乐软件"><a href="#LX-Music-开源音乐软件" class="headerlink" title="LX Music - 开源音乐软件"></a>LX Music - 开源音乐软件</h1><p><a href="https://lxmusic.toside.cn/">https://lxmusic.toside.cn/</a></p>
+<p><a href="https://github.com/lyswhut/lx-music-desktop">https://github.com/lyswhut/lx-music-desktop</a></p>
+<p>原软件无法下载无损音乐，可配合第三方音源可实现无损下载：</p>
+<h2 id="六音自定义音源："><a href="#六音自定义音源：" class="headerlink" title="六音自定义音源："></a>六音自定义音源：</h2><p><a href="https://www.6yit.com/8498.html">https://www.6yit.com/8498.html</a></p>
+<p><a href="https://www.6yit.com/download?post=8498&time=1669881237">https://www.6yit.com/download?post=8498&amp;time=1669881237</a></p>
+<p>下载六音自定义音源文件的压缩包，下载完成后解压。打开洛雪音乐助手的设置，找到音乐来源，点击自定义源管理，然后点击导入，选择之前下载后解压出来的<code>sixyin-music-resource.js</code>文件。导入完成后，关闭弹窗，然后切换音乐来源为六音音源。切换后，会显示初始化成功，之后下载就可以选择无损音乐。</p>
 ]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
   </entry>
 </search>
