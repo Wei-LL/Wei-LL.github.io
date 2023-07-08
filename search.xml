@@ -134,6 +134,19 @@
 <h2 id="11-背景特效"><a href="#11-背景特效" class="headerlink" title="11. 背景特效"></a>11. 背景特效</h2><p>Butterfly自带三个背景特效：canvas_ribbon (靜止彩帶背景)， Fluttering Ribbon (動態彩帶) 和 canvas_nest，只需要在主题下_config.yml将相应的enable设置为true即可。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># canvas_ribbon (靜止彩帶背景)</span><br><span class="line"># See: https://github.com/hustcc/ribbon.js</span><br><span class="line">canvas_ribbon:</span><br><span class="line">  enable: false</span><br><span class="line">  size: 150</span><br><span class="line">  alpha: 0.6</span><br><span class="line">  zIndex: -1</span><br><span class="line">  click_to_change: false</span><br><span class="line">  mobile: false</span><br><span class="line"></span><br><span class="line"># Fluttering Ribbon (動態彩帶)</span><br><span class="line">canvas_fluttering_ribbon:</span><br><span class="line">  enable: false</span><br><span class="line">  mobile: false</span><br><span class="line"></span><br><span class="line"># canvas_nest</span><br><span class="line"># https://github.com/hustcc/canvas-nest.js</span><br><span class="line">canvas_nest:</span><br><span class="line">  enable: false</span><br><span class="line">  color: &#x27;255,0,255&#x27; #color of lines, default: &#x27;0,0,0&#x27;; RGB values: (R,G,B).(note: use &#x27;,&#x27; to separate.)</span><br><span class="line">  opacity: 0.7 # the opacity of line (0~1), default: 0.5.</span><br><span class="line">  zIndex: 1 # z-index property of the background, default: -1.</span><br><span class="line">  count: 99 # the number of lines, default: 99.</span><br><span class="line">  mobile: false</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<h2 id="12-其他颜色修改"><a href="#12-其他颜色修改" class="headerlink" title="12. 其他颜色修改"></a>12. 其他颜色修改</h2><h2 id="分类页颜色"><a href="#分类页颜色" class="headerlink" title="分类页颜色"></a>分类页颜色</h2><h4 id="分类页左侧圈圈颜色"><a href="#分类页左侧圈圈颜色" class="headerlink" title="分类页左侧圈圈颜色:"></a>分类页左侧圈圈颜色:</h4><p> &#x2F;butterfly&#x2F;source&#x2F;css&#x2F;_global&#x2F; 目录下的 function.styl 文件，修改一下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.list-beauty</span><br><span class="line">  list-style: none</span><br><span class="line"></span><br><span class="line">  li</span><br><span class="line">    position: relative</span><br><span class="line">    padding: .12em .4em .12em 1.4em</span><br><span class="line"></span><br><span class="line">    &amp;:hover</span><br><span class="line">      &amp;:before</span><br><span class="line">        border-color: var(--pseudo-hover) //鼠标放置时圈圈的颜色</span><br><span class="line"></span><br><span class="line">    &amp;:before</span><br><span class="line">      position: absolute</span><br><span class="line">      top: .67em</span><br><span class="line">      left: 0</span><br><span class="line">      width: w = .43em</span><br><span class="line">      height: h = w</span><br><span class="line">      border: .5 * w solid rgb(120,120,250)//$light-blue //圈圈的颜色</span><br><span class="line">      border-radius: w</span><br><span class="line">      background: transparent</span><br><span class="line">      content: &#x27;&#x27;</span><br><span class="line">      cursor: pointer //鼠标放置在圈圈上时会变成手，如果想取消，注释即可</span><br><span class="line">      transition: all .3s ease-out</span><br></pre></td></tr></table></figure>
+
+<h4 id="分类页词条选中颜色："><a href="#分类页词条选中颜色：" class="headerlink" title="分类页词条选中颜色："></a>分类页词条选中颜色：</h4><p>&#x2F;butterfly&#x2F;source&#x2F;css&#x2F;_page&#x2F;目录下的 categories.styl 文件，修改以下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.category-list</span><br><span class="line">  margin-bottom: 0</span><br><span class="line"></span><br><span class="line">  a</span><br><span class="line">    color: var(--font-color)</span><br><span class="line"></span><br><span class="line">    &amp;:hover</span><br><span class="line">      color: rgb(120,120,250)//$text-hover  //分类页词条选中颜色</span><br></pre></td></tr></table></figure>
+
+<h3 id="归档页颜色"><a href="#归档页颜色" class="headerlink" title="归档页颜色"></a>归档页颜色</h3><p>&#x2F;butterfly&#x2F;source&#x2F;css&#x2F;_page&#x2F; 目录下的 archives.styl 文件，修改以下代码：</p>
+<h4 id="文章总览左侧圈圈："><a href="#文章总览左侧圈圈：" class="headerlink" title="文章总览左侧圈圈："></a>文章总览左侧圈圈：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;-title</span><br><span class="line">  position: relative</span><br><span class="line">  margin-left: 10px</span><br><span class="line">  padding-bottom: 20px</span><br><span class="line">  padding-left: 20px</span><br><span class="line">  font-size: 1.72em</span><br><span class="line"></span><br><span class="line">  &amp;:hover</span><br><span class="line">    &amp;:before</span><br><span class="line">      border-color: var(--pseudo-hover)</span><br><span class="line"></span><br><span class="line">  &amp;:before</span><br><span class="line">    position: absolute</span><br><span class="line">    top: calc(((100% - 36px) / 2))</span><br><span class="line">    left: -9px</span><br><span class="line">    z-index: 1</span><br><span class="line">    width: w = 10px</span><br><span class="line">    height: h = w</span><br><span class="line">    border: .5 * w solid rgb(120,120,250)//$light-blue //文章总览左侧圈圈：</span><br><span class="line">    border-radius: w</span><br><span class="line">    background: var(--card-bg)</span><br><span class="line">    content: &#x27;&#x27;</span><br><span class="line">    line-height: h</span><br><span class="line">    transition: all .2s ease-in-out</span><br></pre></td></tr></table></figure>
+
+<h4 id="文章左侧圈圈："><a href="#文章左侧圈圈：" class="headerlink" title="文章左侧圈圈："></a>文章左侧圈圈：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;-item</span><br><span class="line">    position: relative</span><br><span class="line">    display: flex</span><br><span class="line">    align-items: center</span><br><span class="line">    margin: 0 0 20px 10px</span><br><span class="line">    transition: all .2s ease-in-out</span><br><span class="line"></span><br><span class="line">    &amp;:hover</span><br><span class="line">      &amp;:before</span><br><span class="line">        border-color: var(--pseudo-hover)</span><br><span class="line"></span><br><span class="line">    &amp;:before</span><br><span class="line">      $w = 6px</span><br><span class="line">      position: absolute</span><br><span class="line">      left: calc(-20px - 17px)</span><br><span class="line">      width: w = $w</span><br><span class="line">      height: h = w</span><br><span class="line">      border: .5 * w solid rgb(120,120,250)//$light-blue //title左侧圈圈</span><br><span class="line">      border-radius: w</span><br><span class="line">      background: var(--card-bg)</span><br><span class="line">      content: &#x27;&#x27;</span><br><span class="line">      transition: all .2s ease-in-out</span><br></pre></td></tr></table></figure>
+
+<h4 id="鼠标选中文字变成的颜色："><a href="#鼠标选中文字变成的颜色：" class="headerlink" title="鼠标选中文字变成的颜色："></a>鼠标选中文字变成的颜色：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&amp;-item</span><br><span class="line">...</span><br><span class="line">    &amp;-title</span><br><span class="line">          @extend .limit-more-line</span><br><span class="line">          color: var(--font-color)</span><br><span class="line">          font-size: 1.1em</span><br><span class="line">          transition: all .3s</span><br><span class="line">          -webkit-line-clamp: 2</span><br><span class="line"></span><br><span class="line">          &amp;:hover</span><br><span class="line">            color: $strong-cyan//$text-hover  //鼠标选中文字变成的颜色</span><br><span class="line">            transform: translateX(10px)</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>解决方案</category>
@@ -193,6 +206,12 @@
         <tag>解决方案</tag>
         <tag>博客搭建</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/06/17/hello-world/</url>
+    <content><![CDATA[<p>本打算搞一个用作记录的Blog，但是又不想使用其他网站的Blog功能，然后发现Github可以白嫖到免费的.github.io域名，于是一路下来，基于Hexo + Next主题搭建了自己的Blog。十分感谢知乎大佬<a href="https://www.zhihu.com/column/c_1201860091307458560">枫叶</a>提供的的建站教程。中间有碰到公钥之类的问题，后续有时间了会进行记录。总之这算一个新的开始~</p>
+]]></content>
   </entry>
   <entry>
     <title>最后的问题</title>
@@ -380,12 +399,6 @@
         <tag>短篇科幻小说</tag>
         <tag>艾萨克•阿西莫夫</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2023/06/17/hello-world/</url>
-    <content><![CDATA[<p>本打算搞一个用作记录的Blog，但是又不想使用其他网站的Blog功能，然后发现Github可以白嫖到免费的.github.io域名，于是一路下来，基于Hexo + Next主题搭建了自己的Blog。十分感谢知乎大佬<a href="https://www.zhihu.com/column/c_1201860091307458560">枫叶</a>提供的的建站教程。中间有碰到公钥之类的问题，后续有时间了会进行记录。总之这算一个新的开始~</p>
-]]></content>
   </entry>
   <entry>
     <title>铀花</title>

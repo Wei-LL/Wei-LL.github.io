@@ -316,7 +316,7 @@ template {
   left: 0;
   width: 0.43em;
   height: 0.43em;
-  border: 0.215em solid #141432;
+  border: 0.215em solid #7878fa;
   border-radius: 0.43em;
   background: transparent;
   content: '';
@@ -1984,7 +1984,7 @@ figure.highlight pre .javascript .function {
   z-index: 1;
   width: 10px;
   height: 10px;
-  border: 5px solid #141432;
+  border: 5px solid #7878fa;
   border-radius: 10px;
   background: var(--card-bg);
   content: '';
@@ -2034,7 +2034,7 @@ figure.highlight pre .javascript .function {
   left: calc(-20px - 17px);
   width: 6px;
   height: 6px;
-  border: 3px solid #141432;
+  border: 3px solid #7878fa;
   border-radius: 6px;
   background: var(--card-bg);
   content: '';
@@ -2078,7 +2078,7 @@ figure.highlight pre .javascript .function {
   -webkit-line-clamp: 2;
 }
 .article-sort-item-title:hover {
-  color: #141432;
+  color: #787896;
   -webkit-transform: translateX(10px);
   -moz-transform: translateX(10px);
   -o-transform: translateX(10px);
@@ -2115,7 +2115,7 @@ figure.highlight pre .javascript .function {
   color: var(--font-color);
 }
 .category-lists .category-list a:hover {
-  color: #141432;
+  color: #7878fa;
 }
 .category-lists .category-list .category-list-count {
   margin-left: 8px;
