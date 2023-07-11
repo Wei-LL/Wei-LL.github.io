@@ -1498,7 +1498,7 @@ a {
   overflow-wrap: break-word;
 }
 a:hover {
-  color: #141432;
+  color: #e6e6fa;
 }
 #site-title,
 #site-subtitle,
@@ -2458,7 +2458,7 @@ figure.highlight pre .javascript .function {
   }
 }
 #recent-posts > .recent-post-item >.recent-post-info > .article-title:hover {
-  color: #141432;
+  color: #c8c8fa;
 }
 #recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap {
   margin: 6px 0;
