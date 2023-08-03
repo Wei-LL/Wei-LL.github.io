@@ -220,6 +220,25 @@
       </tags>
   </entry>
   <entry>
+    <title>Diffusion Model</title>
+    <url>/2023/07/30/%E7%AC%94%E8%AE%B0-Diffusion-Model/</url>
+    <content><![CDATA[<h1 id="Diffusion-Model"><a href="#Diffusion-Model" class="headerlink" title="Diffusion Model"></a>Diffusion Model</h1><p>参考：</p>
+<p>Lil’Log：<a href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/#forward-diffusion-process">What are Diffusion Models?</a></p>
+<p>台大李宏毅：<a href="https://www.youtube.com/watch?v=azBugJzmz-o&list=PLJV_el3uVTsOePyfmkfivYZ7Rqr2nMk3W&index=17">【生成式AI】淺談圖像生成模型 Diffusion Model 原理</a></p>
+]]></content>
+      <categories>
+        <category>知识笔记</category>
+        <category>生成式AI</category>
+        <category>Diffusion Model</category>
+        <category>[object Object]</category>
+      </categories>
+      <tags>
+        <tag>Diffusion Model</tag>
+        <tag>扩散模型</tag>
+        <tag>生成式AI</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>(CVPR2023) Generalized Relation Modeling for Transformer Tracking</title>
     <url>/2023/07/18/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA-GRM/</url>
     <content><![CDATA[<h1 id="CVPR’2023-Generalized-Relation-Modeling-for-Transformer-Tracking"><a href="#CVPR’2023-Generalized-Relation-Modeling-for-Transformer-Tracking" class="headerlink" title="[CVPR’2023] - Generalized Relation Modeling for Transformer Tracking"></a>[CVPR’2023] - Generalized Relation Modeling for Transformer Tracking</h1><p>论文地址：<a href="https://arxiv.org/pdf/2303.16580.pdf">Generalized Relation Modeling for Transformer Tracking </a></p>
@@ -227,7 +246,10 @@
 <h1 id="贡献"><a href="#贡献" class="headerlink" title="贡献"></a>贡献</h1><h1 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h1><p><img src="https://cdn.jsdelivr.net/gh/Wei-LL/blog-img/img/image-20230728203257139.png" alt="image-20230728203257139"></p>
 <p>过去主流的跟踪方法基本都是是two-stream trackers，分别对template和search region进行特征提取，然后用各种fashion进行cross-relation。</p>
 <p>最近，one-stream pipeline被提出联合特征提取和relations过程。如图1（b）。</p>
-<p>最近的方法证明让search region 和template 尽可能的相互关联是对 target-specific 的特征生成有益的。但是本文认为search region中并不是所有的部分都需要强制与template关联。因为由于跟踪中的cropping strategy裁剪策略，也就是template一般裁剪2倍目标大小，而搜索区域裁剪4倍目标大小。这意味搜索区域有一大部分是背景，其中可能存在相似目标。这会导致干扰。</p>
+<p>最近的方法证明让search region 和template 尽可能的相互关联（global cross-relation modeling）是对 target-specific 的特征生成有益的。</p>
+<p>但是本文认为search region中并不是所有的部分都需要强制与template关联。因为由于跟踪中的cropping strategy裁剪策略，也就是template一般裁剪2倍目标大小，而搜索区域裁剪4倍目标大小。这意味无论是模板帧还是搜索区域都有一大部分是背景，其中可能存在相似目标。这会导致干扰。</p>
+<p>所以本文提出generalized relation modeling method来自适应地选择适当的搜索标记来与模板交互。把template和 search tokens分为三类，template token一类，search tokens两类。只有适合cross-relation modeling的search token会与template token交互。</p>
+<p>用个lightweight prediction module来划分search token，自适应的决定哪些search token适合cross-relation modeling。但是有两个问题：1）不同token类别的独立relation modeling很难并行训练。2）离散token 类别不可微，无法学习。</p>
 ]]></content>
       <categories>
         <category>论文阅读</category>
